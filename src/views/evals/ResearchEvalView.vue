@@ -1,7 +1,4 @@
-<script setup>
-
-</script>
-
+<!-- 科研情况评审页面 -->
 <template>
     <div class="science_admin">
         <h1>科研情况审核</h1>

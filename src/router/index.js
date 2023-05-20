@@ -1,115 +1,104 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Layout from '@/layout'
+import Vue from "vue"
+import Router from "vue-router"
 
-Vue.use(VueRouter);
+Vue.use(Router);
 
 const routes = [
   {
-    path: '',
-    component: Layout,
+    path: '/',
+    redirect: '/student',
+    hidden: true
+  },
+  {
+    path: '/student',
+    name: '学生页面',
+    component: () => import('@/layout'),
+    redirect: '/student/report',
     children: [
       {
-        path: '/',
-        component: () =>
-          import(/* webpackChunkName: "home" */ "@/views/HomeView.vue"),
-        name: 'home'
-      },
-      {
-        path: "/about",
-        name: "about",
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () =>
-          import(/* webpackChunkName: "about" */ "@/views/AboutView.vue"),
-      },
-      // yudingyi
-      {
-        path: "/science_admin",
-        name: "science_admin",
-        component: () =>
-            import(/* webpackChunkName: "sciAdmin" */ "@/views/ScienceAdminView.vue"),
-      },
-      {
-        path: "/student_manage",
-        name: "student_manage",
-        component: () =>
-            import(/* webpackChunkName: "stuManage" */ "@/views/StudentManage.vue"),
-      },
-      // wanglingyu
-      {
-        path: "/gpa",
-        name: "gpa",
-        component: () =>
-          import(/* webpackChunkName: "gpa" */ "@/views/GpaView.vue"),
-      },
-      {
-        path: "/gpa-eval",
-        name: "gpa-eval",
-        component: () =>
-          import(/* webpackChunkName: "gpa-eval" */ "@/views/GpaEvalView.vue"),
-      },
-      {
-        path: "/stu-import",
-        name: "stu-import",
-        component: () =>
-          import(/* webpackChunkName: "stu-import" */ "@/views/ImportStuView.vue"),
-      },
-      // wuqile
-      {
-        path: "/competition_admin",
-        name: "competition",
-        component: () =>
-          import(/* webpackChunkName: "competition_admin" */ "@/views/competition_admin.vue"),
-      },
-      {
-        path: "/student_service",
-        name: "student_service",
-        component: () =>
-          import(/* webpackChunkName: "student_service" */ "@/views/student_service.vue"),
-      },
-      // wangdy
-      {
-        path: "/summary",
-        name: "summary",
-        component: () =>
-          import(/* webpackChunkName: "summary" */ "@/views/SummaryView.vue"),
-      },
-      {
-        path: "/personalSum",
-        name: "personalSum",
-        component: () =>
-          import(/* webpackChunkName: "personalSum" */ "@/views/PersonalSumView.vue"),
-      },
-      // mxh
-      {
-        path: "/social_practice",
-        name: "social_practice",
-        component: () =>
-          import(/* webpackChunkName: "social_practice" */ "@/views/social_practice.vue"),
-      },
-      {
-        path: "/Volunteer_service",
-        name: "Volunteer_service",
-        component: () =>
-          import(/* webpackChunkName: "Volunteer_service" */ "@/views/Volunteer_service.vue"),
-      },
-      // 学生在线填报
-      {
-        path: "/report",
-        name: "report",
-        component: () =>
-          import(/* webpackChunkName: "report" */ "@/views/ReportView.vue"),
-      },
+        path: '/student/report',
+        name: '在线填报',
+        component: () => import('@/views/ReportView')
+      }
     ]
   },
+  {
+    path: '/judge',
+    name: '评委页面',
+    component: () => import('@/layout'),
+    redirect: '/judge/gpa-eval',
+    children: [
+      {
+        path: '/judge/gpa-eval',
+        name: '学生成绩审核',
+        component: () => import('@/views/evals/GpaEvalView')
+      },
+      {
+        path: '/judge/summary-eval',
+        name: '个人学年总结评审',
+        component: () => import('@/views/evals/SummaryEvalView')
+      },
+      {
+        path: '/judge/volunteer-eval',
+        name: '志愿服务评审',
+        component: () => import('@/views/evals/VolunteerEvalView')
+      },
+      {
+        path: '/judge/research-eval',
+        name: '科研情况评审',
+        component: () => import('@/views/evals/ResearchEvalView')
+      },
+      {
+        path: '/judge/service-eval',
+        name: '学生服务岗位评审',
+        component: () => import('@/views/evals/ServiceEvalView')
+      },
+      {
+        path: '/judge/competition-eval',
+        name: '竞赛得奖评审',
+        component: () => import('@/views/evals/CompetitionEvalView')
+      },
+      {
+        path: '/judge/practice-eval',
+        name: '社会实践评审',
+        component: () => import('@/views/evals/PracticeEvalView')
+      }
+    ]
+  },
+  {
+    path: '/admin',
+    name: '学工页面',
+    component: () => import('@/layout'),
+    redirect: '/admin/import',
+    children: [
+      {
+        path: '/admin/import',
+        name: '导入学生名单',
+        component: () => import('@/views/admins/ImportListView')
+      },
+      {
+        path: '/admin/collect',
+        name: '成绩汇总',
+        component: () => import('@/views/admins/CollectResultView')
+      },
+      {
+        path: '/admin/output',
+        name: '成绩导出',
+        component: () => import('@/views/admins/OutputView')
+      }
+    ]
+  },
+  {
+    path: '*',
+    name: '404',
+    component: res => require(['@/views/NotFoundView'], res), // 异步加载
+    hidden: true
+  }
 ];
 
-const router = new VueRouter({
+const router = new Router({
   mode: "history",
-  base: process.env.BASE_URL,
-  routes,
+  routes
 });
 
 export default router;

@@ -1,4 +1,4 @@
-
+<!-- 导入学生名单页面 -->
 <template>
   <div>
     <h1>导入学生名单</h1>
@@ -145,7 +145,6 @@ export default {
  
 <style>
 .el-header {
-  background-color: #b3c0d1;
   color: #333;
   text-align: center;
   line-height: 60px;
