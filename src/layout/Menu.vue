@@ -1,16 +1,15 @@
 <template>
   <div class="menu">
     <el-aside width="200px">
-      <el-menu router default-active="2">
-        <template v-for="(item, index) in menus">
-          <el-submenu :index="index + ''" :key="index" v-if="!item.hidden">
+      <el-menu router :default-active="menu[1].children[0].path">
+        <template v-for="(item, index) in menu">
+          <el-submenu :index="item.path" :key="index" v-if="!item.hidden">
             <template slot="title">
-              <!-- <i :class="item.iconClass"></i> -->
+              <i :class="item.icon"></i>
               <span>{{ item.name }}</span>
             </template>
             <el-menu-item-group v-for="(child, index) in item.children" :key="index">
               <el-menu-item :index="child.path" :key="index">
-                <!-- <i :class="child.iconClass"></i> -->
                 <span>{{ child.name }}</span>
               </el-menu-item>
             </el-menu-item-group>
@@ -26,11 +25,12 @@ export default {
   name: 'AppMenu',
   data() {
     return {
-      menus: []
+      menu: []
     }
   },
   created() {
-    this.menus = [...this.$router.options.routes]
+    this.menu = [...this.$router.options.routes]
+    console.log(this.menu)
   }
 }
 </script>
@@ -43,6 +43,9 @@ export default {
     .el-menu {
       height: 100%;
       text-align: left;
+      .el-menu-item.is-active {
+        background-color: #ECF5FF;
+      }
       .el-menu-item-group__title {
         padding: 0;
       }

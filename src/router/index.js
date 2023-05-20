@@ -11,7 +11,7 @@ const routes = [
   },
   {
     path: '/student',
-    name: '学生页面',
+    name: '学生页面', icon: 'el-icon-edit',
     component: () => import('@/layout'),
     redirect: '/student/report',
     children: [
@@ -24,7 +24,7 @@ const routes = [
   },
   {
     path: '/judge',
-    name: '评委页面',
+    name: '评委页面', icon: 'el-icon-paperclip',
     component: () => import('@/layout'),
     redirect: '/judge/gpa-eval',
     children: [
@@ -67,7 +67,7 @@ const routes = [
   },
   {
     path: '/admin',
-    name: '学工页面',
+    name: '学工页面', icon: 'el-icon-s-check',
     component: () => import('@/layout'),
     redirect: '/admin/import',
     children: [
