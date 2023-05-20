@@ -1,4 +1,3 @@
-<!-- 导出成绩页面 -->
 <template>
   <div class="st-table">
     <el-table :data="studentData" border style="width: 100%">
@@ -54,11 +53,14 @@
       </el-table-column>
     </el-table>
     <div style="margin:10px">
-      <el-button type="primary">导出</el-button>
+      <el-button type="primary" @click="getTable('eval_result')">导出汇总表</el-button>
+      <el-button type="primary" @click="getTable('eval_record')">导出评审细节表</el-button>
     </div>
   </div>
 </template>
 <script>
+import {exportTable} from "@/api/exportExcel";
+
 export default {
   data() {
     return {
@@ -84,7 +86,24 @@ export default {
     },
     save(row) {
       row.iseditor = false;
-    }
+    },
+    getTable(table_name){
+      console.log('通过接口获取表格');
+      exportTable(table_name)
+          .then (response => {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                let file_name = table_name + '.xlsx';
+                link.setAttribute('download', file_name);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                alert("导出成功" + table_name);
+              }
+          )
+          .catch(error => console.error('导出Excel失败:', error));
+    },
   }
 };
 </script>
