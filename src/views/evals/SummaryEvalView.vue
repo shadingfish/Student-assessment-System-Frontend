@@ -1,3 +1,4 @@
+<!-- 个人学年总结评审页面 -->
 <template>
   <div class="st-table">
     <el-table :data="studentData" border style="width: 100%">
@@ -6,7 +7,7 @@
           {{ scope.row.id }}
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="姓名">
+      <el-table-column prop="name" label="姓名" width="90">
         <template slot-scope="scope">
           {{ scope.row.name }}
         </template>
@@ -21,40 +22,17 @@
           {{ scope.row.major }}
         </template>
       </el-table-column>
-      <el-table-column prop="gpa" label="绩点">
+      <el-table-column prop="url" label="个人学年总结">
         <template slot-scope="scope">
-          {{ scope.row.gpa.toFixed(1) }}
+          {{ scope.row.url }}
         </template>
       </el-table-column>
-      <el-table-column prop="volun" label="志愿时长">
+      <el-table-column prop="score" label="评分">
         <template slot-scope="scope">
-          {{ scope.row.volun }} h
-        </template>
-      </el-table-column>
-      <el-table-column prop="sciRes" label="科研加分">
-        <template slot-scope="scope">
-          {{ scope.row.sciRes }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="award" label="竞赛加分">
-        <template slot-scope="scope">
-          {{ scope.row.award }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="stuService" label="学生服务">
-        <template slot-scope="scope">
-          {{ scope.row.stuService }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="socialPrac" label="社会实践">
-        <template slot-scope="scope">
-          {{ scope.row.socialPrac }}
+          <el-input v-model="scope.row.score" size="small" />
         </template>
       </el-table-column>
     </el-table>
-    <div style="margin:10px">
-      <el-button type="primary">导出</el-button>
-    </div>
   </div>
 </template>
 <script>
@@ -67,12 +45,8 @@ export default {
           name: "王大鹏", // 姓名
           grade: 2022, // 年级
           major: "软件工程", // 专业
-          gpa: 3.0, // 绩点
-          volun: 10, // 志愿时长
-          sciRes: 5, // 科研加分
-          award: 5, // 竞赛加分
-          stuService: 3, // 学生服务
-          socialPrac: 5 // 社会实践
+          url: "2200022XXX-王大鹏-个人学年总结", // 个人学年总结文件
+          score: "暂未评分" // 个人学年总结评分
         }
       ],
     };

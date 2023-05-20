@@ -1,3 +1,4 @@
+<!-- 学生在线填报页面 -->
 <template>
   <div class="report-container">
     <h2>成绩表</h2>
@@ -90,7 +91,7 @@
 export default {
   data() {
     return {
-
+      studentData: []
     }
   }
 }
