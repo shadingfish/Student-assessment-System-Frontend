@@ -64,8 +64,8 @@
           <div class="input-suffix">
             <span>类型与产出时间：</span>
             <el-select v-model="domain.output_type" placeholder="请选择类型">
-              <el-option label="论文" value=1></el-option>
-              <el-option label="专利" value=2></el-option>
+              <el-option label="学术论文" value="学术论文"></el-option>
+              <el-option label="专利" value="专利"></el-option>
             </el-select>
             <el-date-picker
                 style="min-width: 25%"
@@ -85,17 +85,17 @@
           <div class="input-suffix">
             <span>级别与贡献度：</span>
             <el-select v-model="domain.ranking" placeholder="请选择级别">
-              <el-option label="专利" value=1></el-option>
-              <el-option label="中科院一区" value=2></el-option>
-              <el-option label="中科院二区" value=3></el-option>
-              <el-option label="中科院三区" value=4></el-option>
-              <el-option label="中科院四区" value=5></el-option>
+              <el-option label="专利" value="专利"></el-option>
+              <el-option label="中科院一区" value="中科院一区"></el-option>
+              <el-option label="中科院二区" value="中科院二区"></el-option>
+              <el-option label="中科院三区" value="中科院三区"></el-option>
+              <el-option label="中科院四区" value="中科院四区"></el-option>
             </el-select>
             <el-select v-model="domain.level" placeholder="请选择贡献度">
-              <el-option label="第一作者" value=1></el-option>
-              <el-option label="第二作者" value=2></el-option>
-              <el-option label="第三作者" value=3></el-option>
-              <el-option label="第四作者" value=4></el-option>
+              <el-option label="第一作者" value="第一作者"></el-option>
+              <el-option label="第二作者" value="第二作者"></el-option>
+              <el-option label="第三作者" value="第三作者"></el-option>
+              <el-option label="第四作者" value="第四作者"></el-option>
             </el-select>
           </div>
           <div class="input-suffix">
