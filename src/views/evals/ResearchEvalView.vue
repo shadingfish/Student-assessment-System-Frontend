@@ -171,7 +171,7 @@ export default {
   },
   mounted() {
     console.log('通过接口获取科研审核学生信息数据，json格式');
-    axios.get('http://localhost:20235/checkResearch')
+    axios.get('http://localhost:20235/research/check')
         .then(response => {
               console.log('科研审核学生信息 获取成功', response);
               this.tableData = response.data;
@@ -215,7 +215,7 @@ export default {
       console.log(clickedItem);
       let stuId = clickedItem.user_id;
       this.current_title = clickedItem.name + '科研情况';
-      let url = 'http://localhost:20235/getResearchList?stu_id=' + stuId;
+      let url = 'http://localhost:20235/research/get-list?stu_id=' + stuId;
       axios.get(url)
           .then(response => {
                 console.log('学生科研细节 获取成功', response.data);

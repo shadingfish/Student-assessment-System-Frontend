@@ -3,7 +3,7 @@ import request from '@/utils/request'
 //学生提交填写好的科研信息
 export function researchSubmit(reqVo) {
     return request({
-        url: '/postResearch',
+        url: '/research/insert',
         method: 'post',
         data: reqVo
     })
@@ -12,7 +12,7 @@ export function researchSubmit(reqVo) {
 //老师提交打出的分数
 export function scoreSubmit(score) {
     return request({
-        url: '/giveResearchScore',
+        url: '/research/give-score',
         method: 'post',
         data: score
     })
