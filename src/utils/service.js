@@ -3,7 +3,7 @@ import { getToken } from '@/utils/token'
 import { Message } from 'element-ui' 
 
 const service = axios.create({
-  baseURL: '/api', // baseURL 会自动加在每次请求的最前面，然后被 vue.config.js 解析
+  baseURL: 'http://localhost:20235', // baseURL 会自动加在每次请求的最前面，然后被 vue.config.js 解析
   timeout: 3000
 })
 

@@ -1,152 +1,96 @@
-<!-- 导入学生名单页面 -->
 <template>
   <div>
-    <h1>导入学生名单</h1>
-    <el-container>
-      <el-header
-        ><el-upload
-          class="upload-demo"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          accept=".xlsx, .xls"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :before-remove="beforeRemove"
-          multiple
-          :limit="3"
-          :on-exceed="handleExceed"
-          :file-list="fileList"
-        >
-          <el-button type="primary">点击上传</el-button>
-        </el-upload></el-header
-      >
-      <el-main
-        ><el-table
-          :data="
-            tableData.slice(
-              (currentPage - 1) * pageSize,
-              currentPage * pageSize
-            )
-          "
-          style="width: 100%"
-        >
-          <el-table-column
-            type="index"
-            :index="indexMethod"
-            align="center"
-            label="序号"
-            width="50"
-          ></el-table-column>
-          <el-table-column prop="stuNum" label="学号"> </el-table-column>
-          <el-table-column prop="name" label="姓名"> </el-table-column>
-          <el-table-column prop="grade" label="年级"> </el-table-column>
-          <el-table-column prop="major" label="专业"> </el-table-column>
-        </el-table>
-      </el-main>
+    <el-button type="text" @click="dialogVisible = true">导入学生</el-button>
 
-      <el-footer
-        ><div>
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-sizes="[2, 5, 8, 10]"
-            :page-size="pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="tableData.length"
-          >
-          </el-pagination></div
-      ></el-footer>
-    </el-container>
+    <el-dialog title="导入学生" :visible.sync="dialogVisible" width="40%">
+      <el-upload
+        ref="upload"
+        class="upload-demo"
+        drag
+        :action="uploadUrl"
+        :limit="1"
+        accept=".xlsx, .xls"
+        :auto-upload="false"
+        :on-change="handleFileChange"
+      >
+        <i class="el-icon-upload"></i>
+        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <div class="el-upload__tip text-center" slot="tip">
+          <span>仅允许导入xls、xlsx格式文件。</span>
+        </div>
+      </el-upload>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="uploadFile">上 传</el-button>
+      </div>
+    </el-dialog>
+
+    <el-table v-if="studentList.length > 0" :data="pagedStudentList" border>
+      <el-table-column prop="name" label="姓名"></el-table-column>
+      <el-table-column prop="school" label="学院"></el-table-column>
+      <el-table-column prop="grade" label="年级"></el-table-column>
+      <el-table-column prop="stu_class" label="班级"></el-table-column>
+      <el-table-column prop="major" label="专业"></el-table-column>
+    </el-table>
+
+    <el-pagination
+      v-if="studentList.length > 0"
+      :current-page="currentPage"
+      :page-size="pageSize"
+      layout="prev, pager, next"
+      :total="studentList.length"
+      @current-change="handlePageChange"
+    >
+    </el-pagination>
   </div>
 </template>
- 
+
 <script>
+import { getPage } from "@/api/upload";
+
 export default {
   data() {
     return {
-      tableData: [
-        {
-          stuNum: "123456",
-          name: "王小虎",
-          grade: "2022",
-          major: "软件工程",
-        },
-        {
-          stuNum: "123456",
-          name: "王小虎",
-          grade: "2022",
-          major: "软件工程",
-        },
-        {
-          stuNum: "123456",
-          name: "王小虎",
-          grade: "2022",
-          major: "软件工程",
-        },
-        {
-          stuNum: "123456",
-          name: "王小虎",
-          grade: "2022",
-          major: "软件工程",
-        },
-        {
-          stuNum: "123456",
-          name: "王小虎",
-          grade: "2022",
-          major: "软件工程",
-        },
-        {
-          stuNum: "123456",
-          name: "王小虎",
-          grade: "2022",
-          major: "软件工程",
-        },
-      ],
-      fileList: [],
+      dialogVisible: false,
+      uploadUrl: "http://localhost:20235/student/import",
+      file: null,
       currentPage: 1,
-      pageSize: 2,
+      pageSize: 10,
+      studentList: [], // 学生列表数据
     };
   },
+  mounted() {
+    this.fetchStudentList();
+  },
   methods: {
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
+    async fetchStudentList() {
+      const response = await getPage(this.currentPage, this.pageSize);
+      this.studentList = response.data.data.rows; // 将数据赋值给studentList
     },
-    handlePreview(file) {
-      console.log(file);
+    handleFileChange(file) {
+      this.file = file;
     },
-    handleExceed(files, fileList) {
-      this.$message.warning(
-        `当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
-          files.length + fileList.length
-        } 个文件`
-      );
+    uploadFile() {
+      if (this.file) {
+        this.$refs.upload.submit();
+        this.dialogVisible = false;
+      } else {
+        // 处理未选择文件的情况
+        // 可以显示提示信息或进行其他操作
+      }
     },
-    beforeRemove(file, fileList) {
-      console.log(fileList);
-      return this.$confirm(`确定移除 ${file.name}？`);
+    handlePageChange(page) {
+      this.currentPage = page;
+      this.fetchStudentList();
     },
+  },
+  computed: {
+    pagedStudentList() {
+      const start = (this.currentPage - 1) * this.pageSize;
+      const end = this.currentPage * this.pageSize;
 
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-      this.pageSize = val;
-    },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
-      this.currentPage = val;
-    },
-
-    //方法写在methods里面
-    indexMethod(index) {
-      return index + 1 + (this.currentPage - 1) * this.pageSize; // 返回表格序号
+      return this.studentList.slice(start, end);
     },
   },
 };
 </script>
- 
-<style>
-.el-header {
-  color: #333;
-  text-align: center;
-  line-height: 60px;
-}
-</style>
