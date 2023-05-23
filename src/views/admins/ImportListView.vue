@@ -25,7 +25,8 @@
       </div>
     </el-dialog>
 
-    <el-table v-if="studentList.length > 0" :data="pagedStudentList" border>
+    <el-table v-if="pagedStudentList.length > 0" :data="pagedStudentList" border>
+      <el-table-column prop="card_id" label="学号"></el-table-column>
       <el-table-column prop="name" label="姓名"></el-table-column>
       <el-table-column prop="school" label="学院"></el-table-column>
       <el-table-column prop="grade" label="年级"></el-table-column>
@@ -35,10 +36,10 @@
 
     <el-pagination
       v-if="studentList.length > 0"
+      background
       :current-page="currentPage"
       :page-size="pageSize"
-      layout="prev, pager, next"
-      :total="studentList.length"
+      :total="totalStudents"
       @current-change="handlePageChange"
     >
     </el-pagination>
@@ -57,6 +58,7 @@ export default {
       currentPage: 1,
       pageSize: 10,
       studentList: [], // 学生列表数据
+      totalStudents: 0, // 总学生数
     };
   },
   mounted() {
@@ -66,6 +68,7 @@ export default {
     async fetchStudentList() {
       const response = await getPage(this.currentPage, this.pageSize);
       this.studentList = response.data.data.rows; // 将数据赋值给studentList
+      this.totalStudents = response.data.data.total; // 设置总学生数
     },
     handleFileChange(file) {
       this.file = file;
@@ -79,17 +82,14 @@ export default {
         // 可以显示提示信息或进行其他操作
       }
     },
-    handlePageChange(page) {
-      this.currentPage = page;
+    handlePageChange(currentPage) {
+      this.currentPage = currentPage;
       this.fetchStudentList();
     },
   },
   computed: {
     pagedStudentList() {
-      const start = (this.currentPage - 1) * this.pageSize;
-      const end = this.currentPage * this.pageSize;
-
-      return this.studentList.slice(start, end);
+      return this.studentList; // 不需要分页处理，直接返回当前页的列表数据
     },
   },
 };
