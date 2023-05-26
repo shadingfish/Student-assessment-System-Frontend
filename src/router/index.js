@@ -18,7 +18,8 @@ const routes = [
       {
         path: '/student/report',
         name: '在线填报',
-        component: () => import('@/views/ReportView')
+        component: () => import('@/views/ReportView'),
+        meta: { title: 'Report', icon: 'el-icon-edit'}
       }
     ]
   },
@@ -31,37 +32,44 @@ const routes = [
       {
         path: '/judge/gpa-eval',
         name: '学生成绩审核',
-        component: () => import('@/views/evals/GpaEvalView')
+        component: () => import('@/views/evals/GpaEvalView'),
+        meta: { title: 'Report', icon: 'el-icon-edit'}
       },
       {
         path: '/judge/summary-eval',
         name: '个人学年总结评审',
-        component: () => import('@/views/evals/SummaryEvalView')
+        component: () => import('@/views/evals/SummaryEvalView'),
+        meta: { title: 'Report', icon: 'el-icon-edit'}
       },
       {
         path: '/judge/volunteer-eval',
         name: '志愿服务评审',
-        component: () => import('@/views/evals/VolunteerEvalView')
+        component: () => import('@/views/evals/VolunteerEvalView'),
+        meta: { title: 'Report', icon: 'el-icon-edit'}
       },
       {
         path: '/judge/research-eval',
         name: '科研情况评审',
-        component: () => import('@/views/evals/ResearchEvalView')
+        component: () => import('@/views/evals/ResearchEvalView'),
+        meta: { title: 'Report', icon: 'el-icon-edit'}
       },
       {
         path: '/judge/service-eval',
         name: '学生服务岗位评审',
-        component: () => import('@/views/evals/ServiceEvalView')
+        component: () => import('@/views/evals/ServiceEvalView'),
+        meta: { title: 'Report', icon: 'el-icon-edit'}
       },
       {
         path: '/judge/competition-eval',
         name: '竞赛得奖评审',
-        component: () => import('@/views/evals/CompetitionEvalView')
+        component: () => import('@/views/evals/CompetitionEvalView'),
+        meta: { title: 'Report', icon: 'el-icon-edit'}
       },
       {
         path: '/judge/practice-eval',
         name: '社会实践评审',
-        component: () => import('@/views/evals/PracticeEvalView')
+        component: () => import('@/views/evals/PracticeEvalView'),
+        meta: { title: 'Report', icon: 'el-icon-edit'}
       }
     ]
   },
