@@ -1,10 +1,9 @@
-<!-- 导出成绩页面 -->
 <template>
   <div class="st-table">
     <el-table :data="studentData" border style="width: 100%">
       <el-table-column prop="id" label="学号">
         <template slot-scope="scope">
-          {{ scope.row.id }}
+          {{ scope.row.card_id }}
         </template>
       </el-table-column>
       <el-table-column prop="name" label="姓名">
@@ -17,66 +16,83 @@
           {{ scope.row.grade }}
         </template>
       </el-table-column>
-      <el-table-column prop="major" label="专业">
+      <el-table-column prop="grade" label="专业">
         <template slot-scope="scope">
           {{ scope.row.major }}
         </template>
       </el-table-column>
-      <el-table-column prop="gpa" label="绩点">
+      <el-table-column prop="major" label="评审状态">
         <template slot-scope="scope">
-          {{ scope.row.gpa.toFixed(1) }}
+          {{ scope.row.eval_status }}
         </template>
       </el-table-column>
-      <el-table-column prop="volun" label="志愿时长">
+      <el-table-column prop="gpa" label="学习成绩">
         <template slot-scope="scope">
-          {{ scope.row.volun }} h
+          {{ scope.row.gpa_score}}
         </template>
       </el-table-column>
-      <el-table-column prop="sciRes" label="科研加分">
+      <el-table-column prop="volun" label="个人报告成绩">
         <template slot-scope="scope">
-          {{ scope.row.sciRes }}
+          {{ scope.row.report_score }}
         </template>
       </el-table-column>
-      <el-table-column prop="award" label="竞赛加分">
+      <el-table-column prop="sciRes" label="志愿服务成绩">
         <template slot-scope="scope">
-          {{ scope.row.award }}
+          {{ scope.row.volun_score }}
         </template>
       </el-table-column>
-      <el-table-column prop="stuService" label="学生服务">
+      <el-table-column prop="award" label="学生岗位成绩">
         <template slot-scope="scope">
-          {{ scope.row.stuService }}
+          {{ scope.row.occup_score }}
         </template>
       </el-table-column>
-      <el-table-column prop="socialPrac" label="社会实践">
+      <el-table-column prop="stuService" label="科研成果成绩">
         <template slot-scope="scope">
-          {{ scope.row.socialPrac }}
+          {{ scope.row.research_score }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="socialPrac" label="竞赛获奖成绩">
+        <template slot-scope="scope">
+          {{ scope.row.award_score }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="socialPrac" label="社会实践成绩">
+        <template slot-scope="scope">
+          {{ scope.row.practice_score }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="socialPrac" label="最终得分">
+        <template slot-scope="scope">
+          {{ scope.row.final_score }}
         </template>
       </el-table-column>
     </el-table>
     <div style="margin:10px">
-      <el-button type="primary">导出</el-button>
+      <el-button type="primary" @click="getTable('eval_result')">导出汇总表</el-button>
+      <el-button type="primary" @click="getTable('eval_record')">导出评审细节表</el-button>
     </div>
   </div>
 </template>
 <script>
+import {exportTable} from "@/api/exportExcel";
+import axios from "axios";
+
 export default {
   data() {
     return {
-      studentData: [
-        {
-          id: "2200022XXX", // 学号
-          name: "王大鹏", // 姓名
-          grade: 2022, // 年级
-          major: "软件工程", // 专业
-          gpa: 3.0, // 绩点
-          volun: 10, // 志愿时长
-          sciRes: 5, // 科研加分
-          award: 5, // 竞赛加分
-          stuService: 3, // 学生服务
-          socialPrac: 5 // 社会实践
-        }
-      ],
+      studentData: [],
     };
+  },
+  mounted() {
+    console.log('通过接口获取学生汇总信息，json格式');
+    axios.get('http://localhost:20235/export/view')
+        .then(response => {
+              console.log('学生汇总信息 获取成功', response);
+              this.studentData = response.data;
+              console.log(this.studentData);
+            }
+        )
+        .catch(error => console.log('学生汇总信息', error));
   },
   methods: {
     edit(row) {
@@ -84,7 +100,24 @@ export default {
     },
     save(row) {
       row.iseditor = false;
-    }
+    },
+    getTable(table_name){
+      console.log('通过接口获取表格');
+      exportTable(table_name)
+          .then (response => {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                let file_name = table_name + '.xlsx';
+                link.setAttribute('download', file_name);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                alert("导出成功" + table_name);
+              }
+          )
+          .catch(error => console.error('导出Excel失败:', error));
+    },
   }
 };
 </script>
