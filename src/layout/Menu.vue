@@ -1,9 +1,9 @@
 <template>
   <div class="menu">
     <el-aside width="200px">
-      <el-menu router :default-active="menu[1].children[0].path">
+      <el-menu router :default-active="menu[2].children[0].path">
         <template v-for="(item, index) in menu">
-          <el-submenu :index="item.path" :key="index" v-if="!item.hidden">
+          <el-submenu v-if="!item.hidden" :index="item.path" :key="index">
             <template slot="title">
               <i :class="item.icon"></i>
               <span>{{ item.name }}</span>
@@ -27,6 +27,9 @@ export default {
     return {
       menu: []
     }
+  },
+  computed: {
+
   },
   created() {
     this.menu = [...this.$router.options.routes]
