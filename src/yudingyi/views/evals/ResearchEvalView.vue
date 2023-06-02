@@ -132,7 +132,7 @@
 import Vue from 'vue';
 import Plugin from 'v-fit-columns';
 import axios from "axios";
-import {scoreSubmit} from "@/api/researchSubmit";
+import {scoreSubmit} from "@/yudingyi/api/researchSubmit";
 Vue.use(Plugin);
 export default {
   data() {
