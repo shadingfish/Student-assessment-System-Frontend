@@ -74,7 +74,7 @@
   </div>
 </template>
 <script>
-import {exportTable} from "@/api/exportExcel";
+import {exportTable} from "@/yudingyi/api/exportExcel";
 import axios from "axios";
 
 export default {

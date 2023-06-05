@@ -180,7 +180,7 @@
 </template>
 
 <script>
-import {researchSubmit} from "@/api/researchSubmit";
+import {researchSubmit} from "@/yudingyi/api/researchSubmit";
 
 export default {
   data() {
@@ -214,7 +214,7 @@ export default {
           fileList: []
         }],
       },
-      uploadUrl: 'http://localhost:20235/file/upload',
+      uploadUrl: 'http://localhost:20235/upload',
       //*************************************科研相关数据 结束*************************************
     }
   },
