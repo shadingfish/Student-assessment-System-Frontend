@@ -8,7 +8,11 @@
       <el-table-column prop="student.major" label="专业"></el-table-column>
       <el-table-column prop="student.class" label="班级"></el-table-column>
       <el-table-column prop="evalStatus" label="审核状态"></el-table-column>
-      <el-table-column prop="score" label="分数"></el-table-column>
+      <el-table-column prop="score" label="分数">
+        <template slot-scope="scope">
+            {{ scope.row.evalStatus === '待审核' ? '未评分' : scope.row.score }}
+        </template>
+      </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" icon="el-icon-edit"
@@ -61,7 +65,7 @@
         </el-form>
 
         <h1>个人学年总结</h1>
-        <template v-for="(item, key, index) in summary.content">
+        <template v-for="(item, key, index) in summary">
           <div class="summary-item" :key="key">
             <h3>{{ index + 1  + '. ' + summaryCol[index]}}</h3>
             <el-input class="content"
@@ -90,34 +94,17 @@
   </div>
 </template>
 <script>
+import { getSummaryRecordApi, getSummaryApi, putSummaryRecordApi } from '@/wangdy55/api'
 export default {
   data() {
     return {
       dialogVisible: false,
-      evalRecords: [
-        {
-          id: 1, // 评审记录 ID
-          stuId: 1, // 学生 ID
-          // matType: '个人报告',
-          evalStatus: '待审核', // 审核状态
-          score: '', // 分数
-          evalTime: '', // 评分时间
-          remark: '', // 评分备注
-          student: {
-            cardId: '2200022000', // 学号
-            name: "软小微", // 姓名
-            grade: 2022, // 年级
-            major: '软件工程', // 专业
-            class: '求知一苑', // 班级
-          },
-        },
-      ],
+      evalRecords: [],
       form: {
-        id: '',
-        stuId: '',
-        evalStatus: '',
-        score: '',
-        remark: ''
+        id: 1,
+        evalStatus: '已通过',
+        score: 100,
+        remark: '评审备注'
       },
       rules: {
         score: [
@@ -132,41 +119,58 @@ export default {
         major: '',
         class: '',
       },
-      summary: {
-        id: 1,
-        content: {
-          politicSum: '思想政治总结',
-          behaveSum: '行为规范总结',
-          studySum: '学习态度总结',
-          healthSum: '身心健康总结'
-        }
-      },
+      summary: {},
       summaryCol: [ '思想政治总结', '行为规范总结', '学习态度总结', '身心健康总结' ],
+      queryParams: {
+        'judgeId': 2,
+        'acYear': '2022-2023'
+      }
     };
   },
   created() {
     // 获取评审记录列表
-    // 为评审记录列表补充学生字段
+    this.getSummaryRecord(this.queryParams)
   },
   methods: {
+    getSummaryRecord(params) {
+      getSummaryRecordApi(params).then(res => {
+        this.evalRecords = res.data.data
+        this.evalRecords.forEach(row => {
+          row.student.class = row.student.class1
+        })
+        this.$message({ type: 'success', message: res.data.message })
+      })
+    },
+    getSummary(stuId) {
+      getSummaryApi(stuId).then(res => {
+        this.summary = res.data.data
+        this.$message({ type: 'success', message: res.data.message })
+      })
+    },
+    putSummaryRecord(data) {
+      putSummaryRecordApi(data).then(res => {
+        this.$message({ type: 'success', message: res.data.message })
+      })
+    },
     edit(row) {
-      this.dialogVisible = true
+      this.getSummary(row.stuId)
       this.form = {...row}
       this.student = row.student
-      this.summary = row.summary.content
+      this.dialogVisible = true
     },
     submit(form) {
       this.$refs[form].validate(valid => {
         if (valid) {
-          // 调用 POST 接口
-          this.dialogVisible = false
+          console.log(this.form)
+          // 调用 PUT 接口
+          this.putSummaryRecord(this.form)
           this.closeForm(form)
         }
       })
     },
     closeForm(form) {
-      this.$refs[form].resetFields()
       this.dialogVisible = false
+      this.$refs[form].resetFields()
     },
     validateScore(rule, value, callback) {
       const score = Number(value); // 将输入值解析为数字

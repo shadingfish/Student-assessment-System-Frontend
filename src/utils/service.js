@@ -11,6 +11,7 @@ const service = axios.create({
 service.interceptors.request.use(config => {
   // 发送请求的前置操作（如添加 token）
   config.headers['token'] =  getToken('token')
+  // config.headers['Content-Type'] = 'application/json'
   return config
 }, error => {
   return Promise.reject(error)
@@ -19,8 +20,8 @@ service.interceptors.request.use(config => {
 // 响应拦截器
 service.interceptors.response.use(res => {
   // 收到响应的后置操作
-  let { status, message } = res.data
-  if (status !== 200) {
+  let { code, message } = res.data
+  if (code !== 200) {
     Message({ message: message || 'error', type: 'warning' })
   }
   return res
