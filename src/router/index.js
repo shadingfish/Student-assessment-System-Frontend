@@ -5,6 +5,22 @@ Vue.use(Router);
 
 const routes = [
   {
+    path: '/login',
+    name: 'login',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/auth/LoginView.vue')
+  },
+  {
+    path: '/register',
+    name: 'register',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/auth/RegisterView.vue')
+  },
+  {
     path: '/',
     redirect: '/student',
     hidden: true
@@ -51,8 +67,7 @@ const routes = [
       {
         path: '/eval/research',
         name: '科研情况评审',
-        component: () => import('@/views/evals/ResearchEvalView'),
-        meta: { title: 'Report', icon: 'el-icon-edit'}
+        component: () => import('@/yudingyi/views/evals/ResearchEvalView.vue')
       },
       {
         path: '/eval/service',
@@ -93,7 +108,7 @@ const routes = [
       {
         path: '/admin/output',
         name: '成绩导出',
-        component: () => import('@/views/admins/OutputView')
+        component: () => import('@/yudingyi/views/admins/OutputView.vue')
       }
     ]
   },

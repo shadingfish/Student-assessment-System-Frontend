@@ -12,7 +12,8 @@ module.exports = defineConfig({
           '^/api': ''
         }
       }
-    }
+    },
+    port: 8888, // Replace with your desired port number
   },
   // 修改运行时的标签页标题
   chainWebpack: (config) => {

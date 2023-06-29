@@ -155,6 +155,7 @@ export default {
     edit(row) {
       this.getSummary(row.stuId)
       this.form = {...row}
+      this.form.score = this.form.evalStatus == '待审核' ? '' : row.score
       this.student = row.student
       this.dialogVisible = true
     },
@@ -165,6 +166,7 @@ export default {
           // 调用 PUT 接口
           this.putSummaryRecord(this.form)
           this.closeForm(form)
+          this.getSummary()
         }
       })
     },
