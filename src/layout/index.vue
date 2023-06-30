@@ -25,7 +25,6 @@ import BreadCrumb from '@/components/kits/BreadCrumb'
 export default {
   name: 'AppLayout',
   components: { Menu, Header, Footer, BreadCrumb },
-
 }
 </script>
 

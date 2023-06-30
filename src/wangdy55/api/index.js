@@ -22,3 +22,10 @@ export function putSummaryRecordApi(data) {
     data
   })
 }
+
+export function getMenuByRoleIdApi() {
+  return service({
+    method: 'get',
+    url: '/menu'
+  })
+}
