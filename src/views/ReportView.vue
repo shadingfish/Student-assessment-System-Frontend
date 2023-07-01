@@ -1,48 +1,16 @@
 <!-- 学生在线填报页面 -->
 <template>
   <div class="report-container">
-    <div class="report-container" style="width:70vw; background-color: rgba(178,180,178,0.16)">
-      <h2>用户信息</h2>
-      <el-form :model="userForm" :rules="userRules" ref="userForm" label-width="100px" class="demo-userForm">
-        <el-form-item label="UID" prop="UID">
-          <el-input v-model="userForm.UID"></el-input>
-        </el-form-item>
-        <el-form-item label="学年" prop="ac_year">
-          <el-select v-model="userForm.ac_year" placeholder="请选择申请学年">
-            <el-option label="2022-2023" value="2022-2023"></el-option>
-            <el-option label="2023-2024" value="2023-2024"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="saveForm">保存</el-button>
-        </el-form-item>
-      </el-form>
+    <div class="tableBar">
+      <div class="tableLab">
+        <el-button
+            type="primary"
+            @click="addFoodtype('add')"
+        >
+          + 新建菜品
+        </el-button>
+      </div>
     </div>
-
-    <h2>成绩表</h2>
-    <el-table>
-      <el-table-column prop="term" label="学年" ></el-table-column>
-      <el-table-column prop="gpa" label="GPA" ></el-table-column>
-      <el-table-column prop="rank" label="排名" ></el-table-column>
-    </el-table>
-
-    <h2>志愿服务</h2>
-    <el-table>
-      <el-table-column prop="date" label="日期" ></el-table-column>
-      <el-table-column prop="activity" label="活动名称" ></el-table-column>
-      <el-table-column prop="duration" label="时长" ></el-table-column>
-      <el-table-column prop="url" label="证明材料" ></el-table-column>
-    </el-table>
-
-    <h2>学生骨干服务岗位任职</h2>
-    <el-table>
-      <el-table-column prop="term" label="学年" ></el-table-column>
-      <el-table-column prop="department" label="部门" ></el-table-column>
-      <el-table-column prop="level" label="校级/院级" ></el-table-column>
-      <el-table-column prop="occupation" label="职位" ></el-table-column>
-      <el-table-column prop="url" label="证明材料" ></el-table-column>
-    </el-table>
-
 
     <div class="report-container" style="width:70vw; background-color: rgba(178,180,178,0.16)">
       <h2>科研成果</h2>
@@ -125,62 +93,12 @@
       </el-form>
     </div>
 
-    <h2>竞赛获奖情况</h2>
-    <el-table>
-      <el-table-column prop="competition" label="竞赛名称" ></el-table-column>
-      <el-table-column prop="time" label="时间" ></el-table-column>
-      <el-table-column prop="level" label="竞赛级别" ></el-table-column>
-      <el-table-column prop="award" label="获奖情况" ></el-table-column>
-      <el-table-column prop="url" label="证明材料" ></el-table-column>
-    </el-table>
 
-    <h2>社会实践情况</h2>
-    <el-table>
-      <el-table-column prop="practice" label="实践名称" ></el-table-column>
-      <el-table-column prop="start" label="起始时间" ></el-table-column>
-      <el-table-column prop="end" label="结束时间" ></el-table-column>
-      <el-table-column prop="content" label="实践内容" ></el-table-column>
-      <el-table-column prop="url" label="证明材料" ></el-table-column>
-    </el-table>
-
-    <h2>个人学年总结</h2>
-    <el-table :data="studentData" border style="width: 100%">
-      <el-table-column prop="id" label="学号">
-        <template slot-scope="scope">
-          {{ scope.row.id }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="name" label="姓名" width="90">
-        <template slot-scope="scope">
-          {{ scope.row.name }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="grade" label="年级">
-        <template slot-scope="scope">
-          {{ scope.row.grade }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="major" label="专业">
-        <template slot-scope="scope">
-          {{ scope.row.major }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="url" label="个人学年总结">
-        <template slot-scope="scope">
-          {{ scope.row.url }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="score" label="评分">
-        <template slot-scope="scope">
-          <el-input v-model="scope.row.score" size="small" />
-        </template>
-      </el-table-column>
-    </el-table>
   </div>
 </template>
 
 <script>
-import {researchSubmit} from "@/yudingyi/api/researchSubmit";
+import {research} from "@/yudingyi/api/research";
 
 export default {
   data() {
@@ -226,7 +144,7 @@ export default {
       console.log("表结构: ", this.researchForm);
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          researchSubmit(this.researchForm).then(res =>{
+          research(this.researchForm).then(res =>{
             if(res.data.code === 500){
               this.$message.error('提交失败，可能已经提交过该文件')
               console.error('提交失败，可能已经提交过该文件')
@@ -260,12 +178,12 @@ export default {
     addDomain() {
       this.researchForm.domains.push({
         key: Date.now(),
-        output_name: '',
-        output_type: '',
+        outputName: '',
+        outputType: '',
         category: '',
         ranking: '',
         level: '',
-        output_time: '',
+        outputTime: '',
         fileList: []
       });
       console.log(this.researchForm.domains);
@@ -337,4 +255,25 @@ h2 {
 h2:nth-child(1) {
   margin: 0;
 }
+
+.tableBar {
+  display: flex;
+  margin-bottom: 20px;
+  justify-content: space-between;
+}
+
+.tableLab .span-btn {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  padding: 0 20px;
+  color: #818693;
+  border-right: solid 1px #d8dde3;
+}
+
+.tableLab .el-button{
+  margin-left: 10px;
+}
+
+
 </style>

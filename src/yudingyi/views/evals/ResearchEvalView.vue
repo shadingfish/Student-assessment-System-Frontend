@@ -1,6 +1,4 @@
-<script setup>
 
-</script>
 
 <template>
   <div class="science_admin">
@@ -49,28 +47,10 @@
             <el-table-column align="center" property="output_time" label="产出时间" width="100px"></el-table-column>
             <el-table-column align="center" property="file_url" label="文件" width="400px"></el-table-column>
           </el-table>
-          <!--                    <el-table :data="fileList" style="width: 100%" max-height="200px">-->
-          <!--                        <el-table-column align="center" prop="name" label="佐证文件" width="700px"></el-table-column>-->
-          <!--                        <el-table-column align="center" label="操作">-->
-          <!--                            <template slot-scope="scope">-->
-          <!--                                <el-button type="primary" size="mini" @click="downloadFile(scope.row)">下载</el-button>-->
-          <!--                                <el-button type="primary" size="mini" @click="openFile(scope.row)">打开</el-button>-->
-          <!--                            </template>-->
-          <!--                        </el-table-column>-->
-          <!--                    </el-table>-->
           <div slot="footer" class="dialog-footer">
             <el-button type="primary" @click="downloadAllFiles">下载所有文件</el-button>
             <el-button type="primary" @click="scoreVisible = true">打分</el-button>
             <el-button @click="dialogTableVisible = false">返回</el-button>
-<!--            <template>-->
-<!--              <tr v-for="(item, index) in this.tableData" :key="index">-->
-<!--                <td>-->
-<!--                  <el-button type="primary" @click="downloadAllFiles">下载所有文件</el-button>-->
-<!--                  <el-button type="primary" @click="scoreVisible = true">打分</el-button>-->
-<!--                  <el-button @click="dialogTableVisible = false">返回</el-button>-->
-<!--                </td>-->
-<!--              </tr>-->
-<!--            </template>-->
           </div>
         </el-dialog>
 
@@ -104,21 +84,6 @@
                         <el-button size="mini" @click="withdrawGive">取消</el-button>
                         <el-button type="primary" size="mini" @click="giveScore(current_index)">确认</el-button>
                       </span>
-<!--          <template>-->
-<!--            <tr v-for="(item, index) in this.tableData" :key="index">-->
-<!--              <td>-->
-<!--                <el-input-->
-<!--                    placeholder="请输入分数"-->
-<!--                    v-model="given_score"-->
-<!--                    @input="sanitizeInput">-->
-<!--                </el-input>-->
-<!--                <span slot="footer" class="dialog-footer">-->
-<!--                        <el-button size="mini" @click="scoreVisible = false">取消</el-button>-->
-<!--                        <el-button type="primary" size="mini" @click="giveScore(index)">确认</el-button>-->
-<!--                      </span>-->
-<!--              </td>-->
-<!--            </tr>-->
-<!--          </template>-->
         </el-dialog>
 
 
@@ -132,7 +97,7 @@
 import Vue from 'vue';
 import Plugin from 'v-fit-columns';
 import axios from "axios";
-import {scoreSubmit} from "@/yudingyi/api/researchSubmit";
+import {scoreSubmit} from "@/yudingyi/api/research";
 Vue.use(Plugin);
 export default {
   data() {
