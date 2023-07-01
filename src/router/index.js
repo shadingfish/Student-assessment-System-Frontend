@@ -7,14 +7,13 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
+    hidden: true,
     component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/auth/LoginView.vue')
   },
   {
     path: '/register',
     name: 'register',
+    hidden: true,
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -33,6 +32,7 @@ const routes = [
     redirect: '/student',
     hidden: true
   },
+  // 登录页面
   {
     path: '/student',
     name: '学生页面', icon: 'el-icon-edit',
@@ -42,50 +42,57 @@ const routes = [
       {
         path: '/student/report',
         name: '在线填报',
-        component: () => import('@/views/ReportView')
+        component: () => import('@/views/ReportView'),
+        meta: { title: 'Report', icon: 'el-icon-edit'}
       }
     ]
   },
   {
-    path: '/judge',
+    path: '/eval',
     name: '评委页面', icon: 'el-icon-paperclip',
     component: () => import('@/layout'),
-    redirect: '/judge/gpa-eval',
+    redirect: '/eval/gpa',
     children: [
       {
-        path: '/judge/gpa-eval',
+        path: '/eval/gpa',
         name: '学生成绩审核',
-        component: () => import('@/views/evals/GpaEvalView')
+        component: () => import('@/views/evals/GpaEvalView'),
+        meta: { title: 'Report', icon: 'el-icon-edit'}
       },
       {
-        path: '/judge/summary-eval',
+        path: '/eval/summary',
         name: '个人学年总结评审',
-        component: () => import('@/views/evals/SummaryEvalView')
+        component: () => import('@/wangdy55/views/SummaryEvalView'),
+        meta: { title: 'Report', icon: 'el-icon-edit'}
       },
       {
-        path: '/judge/volunteer-eval',
+        path: '/eval/volunteer',
         name: '志愿服务评审',
-        component: () => import('@/views/evals/VolunteerEvalView')
+        component: () => import('@/views/evals/VolunteerEvalView'),
+        meta: { title: 'Report', icon: 'el-icon-edit'}
       },
       {
-        path: '/judge/research-eval',
+        path: '/eval/research',
         name: '科研情况评审',
         component: () => import('@/yudingyi/views/evals/ResearchEvalView.vue')
       },
       {
-        path: '/judge/service-eval',
+        path: '/eval/service',
         name: '学生服务岗位评审',
-        component: () => import('@/views/evals/ServiceEvalView')
+        component: () => import('@/views/evals/ServiceEvalView'),
+        meta: { title: 'Report', icon: 'el-icon-edit'}
       },
       {
-        path: '/judge/competition-eval',
+        path: '/eval/competition',
         name: '竞赛得奖评审',
-        component: () => import('@/views/evals/CompetitionEvalView')
+        component: () => import('@/views/evals/CompetitionEvalView'),
+        meta: { title: 'Report', icon: 'el-icon-edit'}
       },
       {
-        path: '/judge/practice-eval',
+        path: '/eval/practice',
         name: '社会实践评审',
-        component: () => import('@/views/evals/PracticeEvalView')
+        component: () => import('@/views/evals/PracticeEvalView'),
+        meta: { title: 'Report', icon: 'el-icon-edit'}
       }
     ]
   },
@@ -103,7 +110,7 @@ const routes = [
       {
         path: '/admin/collect',
         name: '成绩汇总',
-        component: () => import('@/views/admins/CollectResultView')
+        component: () => import('@/wangdy55/views/CollectResultView')
       },
       {
         path: '/admin/output',

@@ -2,7 +2,7 @@ import router from './router'
 import { getToken } from '@/utils/token';
 
 router.beforeEach((to, from, next) => {
-    if (getToken()) {
+    if (getToken('token')) {
         if (to.path === '/login') {
             next({ path: '/' })
         }
