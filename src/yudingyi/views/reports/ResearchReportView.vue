@@ -153,7 +153,7 @@ export default{
       textarea: '',
       dialogTableVisible: false,
       // uploadUrl: 'http://localhost:20235/file/upload',
-      uploadUrl: 'http://localhost:20235/upload',
+      uploadUrl: 'http://localhost:20235/api/upload',
       tableData : [],
       // id
       // acYear: '',
@@ -290,14 +290,9 @@ export default{
       console.log(response);
       // 处理上传成功后的回调
       // 在这里你可以从后端接口返回的数据中提取文件名和文件地址，并将其添加到fileList数组中
-      let name = response.data;
-      let url = response.data;
-      this.gridData.fileName = name;
-      this.gridData.fileUrl = url;
-      this.fileList = [{ name, url }];
-      // this.gridData.fileName = name;
-      // this.gridData.fileUrl = url;
-      console.log(this.fileList);
+      this.gridData.fileName = response.data[0];
+      this.gridData.fileUrl = response.data[1];
+      console.log(this.gridData);
     },
     handleUploadError(error, file, fileList) {
       // Handle the file upload error here
