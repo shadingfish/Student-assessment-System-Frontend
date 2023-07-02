@@ -17,20 +17,16 @@
             label="ID"
         ></el-table-column>
         <el-table-column
-            prop="outputName"
-            label="成果名称"
+            prop="pracType"
+            label="实践名称"
         ></el-table-column>
         <el-table-column
-            prop="outputType"
-            label="类型"
+            prop="startDate"
+            label="开始日期"
         ></el-table-column>
         <el-table-column
-            prop="category"
-            label="归属"
-        ></el-table-column>
-        <el-table-column
-            prop="outputTime"
-            label="产出时间"
+            prop="endDate"
+            label="停止日期"
         ></el-table-column>
         <el-table-column
             prop="submitTime"
@@ -65,7 +61,7 @@
     </div>
 
     <el-dialog width="1200px" :visible.sync="dialogTableVisible">
-      <h2>科研成果</h2>
+      <h2>实践成果</h2>
       <br>
       <span style="color: crimson">注：</span>
       <span>每个成果项目最多上传一个word/pdf文件，且不超过500kb。</span>
@@ -74,19 +70,8 @@
       <br>
       <el-form ref="researchForm" :model="gridData" label-width="300px">
 
-        <el-form-item label="成果名称">
-          <el-input v-model="gridData.outputName"></el-input>
-        </el-form-item>
-
-        <el-form-item label="类型">
-          <el-select v-model="gridData.outputType" placeholder="请选择类型">
-            <el-option label="学术论文" value="学术论文"></el-option>
-            <el-option label="专利" value="专利"></el-option>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="归属">
-          <el-input v-model="gridData.category"></el-input>
+        <el-form-item label="实践名称">
+          <el-input v-model="gridData.pracType"></el-input>
         </el-form-item>
 
         <el-form-item label="申请学年">
@@ -96,13 +81,14 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="产出时间">
-            <el-date-picker type="date" placeholder="选择日期" v-model="gridData.outputTime" style="width: 100%;">
+        <el-form-item label="开始时间">
+            <el-date-picker type="date" placeholder="选择日期" v-model="gridData.startDate" style="width: 100%;">
             </el-date-picker>
         </el-form-item>
 
-        <el-form-item label="描述">
-          <el-input v-model="gridData.description"></el-input>
+        <el-form-item label="结束时间">
+          <el-date-picker type="date" placeholder="选择日期" v-model="gridData.endDate" style="width: 100%;">
+          </el-date-picker>
         </el-form-item>
 
         <div class="input-suffix">
@@ -137,10 +123,10 @@
 </template>
 
 <script>
-import {deleteResearch, getResearchList, submitResearch} from "@/yudingyi/api/research";
 import Vue from 'vue';
 import Plugin from 'v-fit-columns';
 import {getToken} from "@/utils/token";
+import {deletePractice, getPracticeList, submitPractice} from "@/yudingyi/api/practice";
 
 Vue.use(Plugin);
 export default{
@@ -168,13 +154,11 @@ export default{
       gridData:{
         id: 0,
         acYear: '',
-        outputName: '',
-        outputType: '',
-        category: '',
-        outputTime: '',
-        description: '',
-        fileName: '',
+        pracType: '',
+        startDate: '',
+        endDate: '',
         fileUrl: '',
+      // (int id, String acYear, String fileUrl, String pracType, Date startDate, Date endDate)
       },
       fileList: [
         // name: '',
@@ -186,15 +170,19 @@ export default{
     getToken,
     //初始化
     async init() {
-      await getResearchList().then(res => {
+      await getPracticeList().then(res => {
         if (res.code === 200) {
           console.log("获得的列表: ", res.data);
           this.tableData = res.data || []
           // 遍历 tableData 数组
           this.tableData.forEach((item) => {
-            // 转换 output_time
-            item.outputTime = new Date(item.outputTime);
-            item.outputTime = this.formatDate(item.outputTime); // 假设 formatDate 是一个自定义函数，用于格式化日期
+            // 转换 startDate
+            item.startDate = new Date(item.startDate);
+            item.startDate = this.formatDate(item.startDate); // 假设 formatDate 是一个自定义函数，用于格式化日期
+
+            // 转换 endDate
+            item.endDate = new Date(item.endDate);
+            item.endDate = this.formatDate(item.endDate); // 假设 formatDate 是一个自定义函数，用于格式化日期
 
             // 转换 submit_time
             item.submitTime = new Date(item.submitTime);
@@ -215,8 +203,14 @@ export default{
     // 添加
     addHandle (st) {
       if (st === 'add'){
-        this.gridData = { id: 0, acYear: '', outputName: '', outputType: '',
-          category: '', outputTime: '', description: '', fileName: '', fileUrl: '',}
+        this.gridData = {
+          id: 0,
+          acYear: '',
+          pracType: '',
+          startDate: '',
+          endDate: '',
+          fileUrl: ''
+        }
         this.fileList = [];
         this.dialogTableVisible = true;
       } else {
@@ -225,14 +219,11 @@ export default{
         console.log("获取已填写细节内容：", clickedItem);
         this.gridData.id = clickedItem.id;
         this.gridData.acYear = clickedItem.acYear;
-        this.gridData.outputName = clickedItem.outputName;
-        this.gridData.outputType = clickedItem.outputType;
-        this.gridData.category = clickedItem.category;
-        this.gridData.outputTime = clickedItem.outputTime;
-        this.gridData.description = clickedItem.description;
+        this.gridData.pracType = clickedItem.pracType;
+        this.gridData.startDate = clickedItem.startDate;
+        this.gridData.endDate = clickedItem.endDate;
 
-        let name = clickedItem.fileName;
-        this.gridData.fileName = name;
+        let name = "材料已上传";
         let url =clickedItem.fileUrl;
         this.gridData.fileUrl = url;
         this.fileList = [{ name, url }];
@@ -244,7 +235,7 @@ export default{
       }
     },
     submitForm() {
-      submitResearch(this.gridData).then(res =>{
+      submitPractice(this.gridData).then(res =>{
         console.log("表结构: ", this.gridData);
         if(res.data.code === 500){
           this.$message.error('提交失败，可能已经提交过该文件')
@@ -273,7 +264,7 @@ export default{
         this.currentIndex = id;
         let clickedItem = this.tableData[id];
         console.log("获取已填写细节内容：", clickedItem);
-        deleteResearch(clickedItem.id).then(res => {
+        deletePractice(clickedItem.id).then(res => {
           if (res.code === 200) {
             this.$message.success('删除成功！')
             //刷新页面
