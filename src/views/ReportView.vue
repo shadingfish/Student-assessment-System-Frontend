@@ -9,6 +9,7 @@
       <span>不同的功能接口，麻烦自行与home菜单拼合，并为每个接口（除退出登录外）增加返回按键</span>
       <br>
       <el-button @click="logout" >退出登录</el-button>
+      <el-button @click="$router.push({ path: '/admin/output' })" >导出界面</el-button>
       <el-button @click="$router.push({ path: '/researchReport' })" >进入填报科研情况页面</el-button>
       <el-button @click="$router.push({ path: '/researchEval' })" >进入科研评委打分页面</el-button>
       <el-button @click="$router.push({ path: '/practiceReport' })" >进入填报实践情况页面</el-button>

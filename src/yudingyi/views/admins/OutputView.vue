@@ -68,8 +68,8 @@
       </el-table-column>
     </el-table>
     <div style="margin:10px">
-      <el-button type="primary" @click="getTable('eval_result')">导出汇总表</el-button>
-      <el-button type="primary" @click="getTable('eval_record')">导出评审细节表</el-button>
+      <el-button type="primary" @click="getTable('eval_results')">导出汇总表</el-button>
+      <el-button type="primary" @click="getTable('eval_records')">导出评审细节表</el-button>
     </div>
   </div>
 </template>
