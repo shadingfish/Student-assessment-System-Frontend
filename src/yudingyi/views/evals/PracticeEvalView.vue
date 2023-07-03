@@ -96,6 +96,9 @@
 import Vue from 'vue';
 import Plugin from 'v-fit-columns';
 import {checkPractice, getPraEvalList, pracScoreSubmit} from "@/yudingyi/api/practice";
+import axios from "axios";
+import {BASE_URL} from "@/utils/request";
+
 Vue.use(Plugin);
 export default {
   data() {
@@ -197,9 +200,24 @@ export default {
           });
     },
     downloadResearch(index) {
-      console.log(index);
-      // 下载所有文件
-      // ...
+      let clickedItem = this.gridData[index];
+      axios({
+        url: BASE_URL + `/api/downloadFiles/${encodeURIComponent(clickedItem.fileUrl)}`,
+        method: 'GET',
+        responseType: 'blob', // important
+      }).then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', clickedItem.fileUrl); // 这里的 'this.form.fileUrl' 是数据库中存储的url,可根据实际情况修改
+        document.body.appendChild(link);
+        link.click();
+        // handle your response here
+      }).catch(error => {
+            console.error('Download failed:', error);
+            this.$message.error('未上传证明文件')
+            // handle your error here
+          });
     },
     withdrawGive(){
       this.given_score = 0;
