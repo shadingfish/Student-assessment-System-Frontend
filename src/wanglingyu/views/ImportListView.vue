@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { getPage } from "@/api/upload";
+import { getPage } from "@/wanglingyu/api/upload";
 
 export default {
   data() {
