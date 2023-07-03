@@ -2,7 +2,7 @@
 
 <template>
   <div class="science_admin">
-    <h1>科研情况审核</h1>
+    <h1>实践情况审核</h1>
     <el-container>
       <el-header style="text-align: right; font-size: 12px">
         <el-button @click="clearFilter">清除所有过滤器</el-button>
@@ -39,12 +39,9 @@
         <el-dialog width="1200px" :title=current_title :visible.sync="dialogTableVisible">
           <span>{{current_submit}}</span>
           <el-table :data="gridData" max-height="400px">
-            <el-table-column align="center" property="outputName" label="名称" width="200px"></el-table-column>
-            <el-table-column align="center" property="outputType" label="类型" width="100px"></el-table-column>
-            <el-table-column align="center" property="category" label="出处" width="150px"></el-table-column>
-            <el-table-column align="center" property="outputTime" label="产出时间" width="100px"></el-table-column>
-            <el-table-column align="center" property="description" label="描述" width="200px"></el-table-column>
-            <el-table-column align="center" property="fileUrl" label="文件名" width="200px"></el-table-column>
+            <el-table-column align="center" property="pracType" label="名称" width="200px"></el-table-column>
+            <el-table-column align="center" property="startDate" label="开始时间" width="100px"></el-table-column>
+            <el-table-column align="center" property="endDate" label="结束时间" width="100px"></el-table-column>
             <el-table-column align="center" fixed="right" label="操作">
               <template slot-scope="scope">
                 <el-button type="text" size="small" @click="downloadResearch(scope.$index)">下载</el-button>
@@ -98,7 +95,7 @@
 <script>
 import Vue from 'vue';
 import Plugin from 'v-fit-columns';
-import {checkResearch, getList, scoreSubmit} from "@/yudingyi/api/research";
+import {checkPractice, getPraEvalList, pracScoreSubmit} from "@/yudingyi/api/practice";
 Vue.use(Plugin);
 export default {
   data() {
@@ -137,7 +134,7 @@ export default {
   },
   mounted() {
     console.log('通过接口获取科研审核学生信息数据，json格式');
-    checkResearch().then(response => {
+    checkPractice().then(response => {
               console.log('科研审核学生信息 获取成功', response);
               this.tableData = response;
               console.log(this.tableData);
@@ -180,11 +177,12 @@ export default {
       console.log(clickedItem);
       let stuId = clickedItem.id;
       this.current_title = clickedItem.name + '科研情况';
-      getList(stuId).then(response => {
-                console.log('学生科研细节 获取成功', response);
+      getPraEvalList(stuId).then(response => {
+                console.log('学生实践细节 获取成功', response);
                 let grids = response;
                 grids.forEach(function(grid){
-                  grid.outputTime = root.formatTimestamp(grid.outputTime);
+                  grid.startDate = root.formatTimestamp(grid.startDate);
+                  grid.endDate = root.formatTimestamp(grid.endDate);
                   grid.submitTime = root.formatTimestamp(grid.submitTime);
                 });
                 this.current_submit = '最近更新时间: ' + grids[0].submitTime;
@@ -214,7 +212,7 @@ export default {
       let stuId = clickedItem.id;
       let score = this.given_score;
       let judge = [stuId, score];
-      scoreSubmit(judge).then(res =>{
+      pracScoreSubmit(judge).then(res =>{
         console.log("Response: ", res);
         alert('打分成功!将刷新页面。');
         setTimeout(() => {

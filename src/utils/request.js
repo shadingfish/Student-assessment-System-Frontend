@@ -15,7 +15,7 @@ service.interceptors.request.use(
         if (getToken('token')) {
             config.headers['Authorization'] = getToken('token');// 让每个请求携带自定义token 请根据实际情况自行修改
         }
-
+        console.log(config);
         return config;
     },
     error => {
