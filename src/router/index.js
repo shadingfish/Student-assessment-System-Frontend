@@ -36,6 +36,18 @@ const routes = [
         name: '在线填报',
         component: () => import('@/views/ReportView'),
         meta: { title: 'Report', icon: 'el-icon-edit'}
+      },
+      {
+        path: '/student/summary',
+        name: '学年总结填报',
+        component: () => import('@/wangdy55/views/SummaryReportView'),
+        meta: { title: 'Summary Report', icon: 'el-icon-edit'}
+      },
+      {
+        path: '/student/volunteer',
+        name: '志愿填报',
+        component: () => import('@/wangdy55/views/VolunteerReportView'),
+        meta: { title: 'Volunteer Report', icon: 'el-icon-edit'}
       }
     ]
   },

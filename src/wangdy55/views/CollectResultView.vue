@@ -1,172 +1,30 @@
 <!-- 成绩汇总页面 -->
 <template>
     <el-container style="height: 500px; border: 1px solid #eee">
-        <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-            <el-menu :default-openeds="['1', '3']">
-                <el-submenu index="1">
-                    <template slot="title"><i class="el-icon-message"></i>导入学生名单</template>
-                    <el-menu-item-group>
-                        <template slot="title">分组一</template>
-                        <el-menu-item index="1-1">选项1</el-menu-item>
-                        <el-menu-item index="1-2">选项2</el-menu-item>
-                    </el-menu-item-group>
-                    <el-menu-item-group title="分组2">
-                        <el-menu-item index="1-3">选项3</el-menu-item>
-                    </el-menu-item-group>
-                    <el-submenu index="1-4">
-                        <template slot="title">选项4</template>
-                        <el-menu-item index="1-4-1">选项4-1</el-menu-item>
-                    </el-submenu>
-                </el-submenu>
-                <el-submenu index="2">
-                    <template slot="title"><i class="el-icon-menu"></i>成绩汇总</template>
-                    <el-menu-item-group>
-                        <template slot="title">分组一</template>
-                        <el-menu-item index="2-1">选项1</el-menu-item>
-                        <el-menu-item index="2-2">选项2</el-menu-item>
-                    </el-menu-item-group>
-                    <el-menu-item-group title="分组2">
-                        <el-menu-item index="2-3">选项3</el-menu-item>
-                    </el-menu-item-group>
-                    <el-submenu index="2-4">
-                        <template slot="title">选项4</template>
-                        <el-menu-item index="2-4-1">选项4-1</el-menu-item>
-                    </el-submenu>
-                </el-submenu>
-                <el-submenu index="3">
-                    <template slot="title"><i class="el-icon-setting"></i>导出</template>
-                    <el-menu-item-group>
-                        <template slot="title">分组一</template>
-                        <el-menu-item index="3-1">选项1</el-menu-item>
-                        <el-menu-item index="3-2">选项2</el-menu-item>
-                    </el-menu-item-group>
-                    <el-menu-item-group title="分组2">
-                        <el-menu-item index="3-3">选项3</el-menu-item>
-                    </el-menu-item-group>
-                    <el-submenu index="3-4">
-                        <template slot="title">选项4</template>
-                        <el-menu-item index="3-4-1">选项4-1</el-menu-item>
-                    </el-submenu>
-                </el-submenu>
-            </el-menu>
-        </el-aside>
-
         <el-container>
-            <el-header style="text-align: right; font-size: 12px">
-                <el-button @click="sumTableVisible = true">查看汇总表</el-button>
-                <el-button @click="resetDateFilter">清除日期过滤器</el-button>
-<!--                <el-button @click="clearFilter">清除所有过滤器</el-button>-->
-
-                <el-dropdown>
-                    <i class="el-icon-setting" style="margin-right: 15px"></i>
-                    <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>查看</el-dropdown-item>
-                        <el-dropdown-item>新增</el-dropdown-item>
-                        <el-dropdown-item>删除</el-dropdown-item>
-                    </el-dropdown-menu>
-                </el-dropdown>
-            </el-header>
-
-            <el-main>
-<!--                <el-table :data="tableData">
-                    <el-table-column prop="date" label="创建日期" width="140">
-                    </el-table-column>
-                    <el-table-column prop="name" label="审核员姓名" width="120">
-                    </el-table-column>
-                    <el-table-column prop="category" label="打分表类型">
-                    </el-table-column>
-                    <el-table-column fixed="right" label="操作">
-                        <template>
-                            <el-button type="text" size="small" @click="dialogTableVisible = true">查看打分表</el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>-->
-                <el-table ref="filterTable"
-                          :data="tableData"
-                          style="width: 100%; text-align: center">
-                    <el-table-column
-                        align="center"
-                        prop="date"
-                        label="创建日期"
-                        sortable
-                        column-key="date"
-                        :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
-                        :filter-method="filterHandler"
-                    >
-                    </el-table-column>
-                    <el-table-column align="center" prop="name" label="审核员姓名">
-                    </el-table-column>
-                    <el-table-column align="center" prop="id" label="工号">
-                    </el-table-column>
-                    <el-table-column align="center" prop="category" label="打分表类型">
-                    </el-table-column>
-                    <el-table-column align="center" fixed="right" label="操作">
-                            <el-button type="text" size="small" @click="dialogTableVisible = true">查看打分表</el-button>
-                    </el-table-column>
-                </el-table>
-            </el-main>
-
-            <el-dialog width="900px" title="xxx - xxx打分表"
-                       :visible.sync="dialogTableVisible">
-                <el-table :data="gridData">
-                    <el-table-column align="center" property="name" label="姓名"></el-table-column>
-                    <el-table-column align="center" property="date" label="审核时间"></el-table-column>
-                    <el-table-column align="center" property="id" label="学号"></el-table-column>
-                    <el-table-column align="center" property="grade" label="年级"></el-table-column>
-                    <el-table-column align="center" property="tag" label="专业" width="250px"></el-table-column>
-                    <el-table-column align="center" property="score" label="得分"></el-table-column>
-                </el-table>
-                <div slot="footer" class="dialog-footer">
-                    <el-button @click="dialogTableVisible = false">返回</el-button>
-                    <el-button type="primary" @click="exportTable">导出表格</el-button>
-                </div>
-            </el-dialog>
-
-            <el-dialog width="1200px" title="汇总表" :visible.sync="sumTableVisible">
-                <el-table :data="sumData">
-                    <el-table-column align="center" property="name" label="姓名"></el-table-column>
-                    <el-table-column align="center" property="id" label="学号" width="150px"></el-table-column>
-                    <el-table-column align="center" property="personal_score" label="学年总结得分"></el-table-column>
-                    <el-table-column align="center" property="volunteer_score" label="志愿服务得分"></el-table-column>
-                    <el-table-column align="center" property="gpa_score" label="成绩得分"></el-table-column>
-                    <el-table-column align="center" property="science_score" label="科研情况得分"></el-table-column>
-                    <el-table-column align="center" property="employee_score" label="服务岗位得分"></el-table-column>
-                    <el-table-column align="center" property="competition_score" label="竞赛得奖得分"></el-table-column>
-                    <el-table-column align="center" property="social_score" label="社会实践得分"></el-table-column>
-                    <el-table-column align="center" property="sum_score" label="总得分"></el-table-column>
-                </el-table>
-                <div slot="footer" class="dialog-footer">
-                    <el-button @click="sumTableVisible = false">返回</el-button>
-                    <el-button type="primary" @click="exportTable">导出表格</el-button>
-                </div>
-            </el-dialog>
-
+            <el-table :data="evalResultList" border style="width: 100%">
+                <el-table-column prop="cardId" label="学号"></el-table-column>
+                <el-table-column prop="evalStatus" label="审核状态"></el-table-column>
+                <el-table-column prop="gpaScore" label="GPA得分"></el-table-column>
+                <el-table-column prop="occupScore" label="学生骨干岗位得分" width="150px"></el-table-column>
+                <el-table-column prop="practiceScore" label="社会实践得分"></el-table-column>
+                <el-table-column prop="reportScore" label="个人报告得分"></el-table-column>
+                <el-table-column prop="researchScore" label="科研成果得分"></el-table-column>
+                <el-table-column prop="volunScore" label="志愿服务得分"></el-table-column>
+                <el-table-column prop="awardScore" label="竞赛获奖得分"></el-table-column>
+                <el-table-column prop="totalScore" label="综合得分"></el-table-column>
+            </el-table>
         </el-container>
     </el-container>
 </template>
 
-<style scoped lang="scss">
-.el-header {
-    background-color: #B3C0D1;
-    color: #333;
-    line-height: 60px;
-}
-
-.el-aside {
-    color: #333;
-}
-.el-dialog {
-    width: 90vw;
-}
-.el-dropdown{
-    margin-left: 1em;
-}
-</style>
-
 <script>
+import { getEvalResultListApi } from '@/wangdy55/api'
+
 export default {
     data() {
         return {
+            evalResultList: [],
             dialogTableVisible: false,
             sumTableVisible: false,
             tableData: [{
@@ -317,7 +175,19 @@ export default {
             ],
         }
     },
+    created() {
+        this.getEvalResultList('国家奖学金', '2022-2023')
+    },
     methods: {
+        getEvalResultList(scholarship, acYear) {
+            getEvalResultListApi(scholarship, acYear).then(res => {
+                this.evalResultList = res.data.data
+                this.evalResultList.forEach(evalResult => {
+                    evalResult.totalScore = (evalResult.gpaScore + evalResult.occupScore + evalResult.practiceScore + evalResult.reportScore + evalResult.researchScore + evalResult.volunScore + evalResult.awardScore) / 7
+                    evalResult.totalScore = evalResult.totalScore.toFixed(2)
+                })
+            })
+        },
         exportTable() {
             // 下载所有文件
             // ...
@@ -342,3 +212,22 @@ export default {
     }
 };
 </script>
+
+<style scoped lang="scss">
+.el-header {
+    background-color: #B3C0D1;
+    color: #333;
+    line-height: 60px;
+}
+
+.el-aside {
+    color: #333;
+}
+.el-dialog {
+    width: 90vw;
+}
+.el-dropdown{
+    margin-left: 1em;
+}
+</style>
+
