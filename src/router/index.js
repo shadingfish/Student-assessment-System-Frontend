@@ -19,38 +19,38 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/auth/RegisterView.vue')
   },
-  {
-    path: '/researchReport',
-    name: 'researchReport',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/reports/ResearchReportView.vue')
-  },
-  {
-    path: '/researchEval',
-    name: 'researchEval',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/evals/ResearchEvalView.vue')
-  },
-  {
-    path: '/practiceReport',
-    name: 'practiceReport',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/reports/PracticeReportView.vue')
-  },
-  {
-    path: '/practiceEval',
-    name: 'practiceEval',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/evals/PracticeEvalView.vue')
-  },
+  // {
+  //   path: '/researchReport',
+  //   name: 'researchReport',
+  //   // route level code-splitting
+  //   // this generates a separate chunk (about.[hash].js) for this route
+  //   // which is lazy-loaded when the route is visited.
+  //   component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/reports/ResearchReportView.vue')
+  // },
+  // {
+  //   path: '/researchEval',
+  //   name: 'researchEval',
+  //   // route level code-splitting
+  //   // this generates a separate chunk (about.[hash].js) for this route
+  //   // which is lazy-loaded when the route is visited.
+  //   component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/evals/ResearchEvalView.vue')
+  // },
+  // {
+  //   path: '/practiceReport',
+  //   name: 'practiceReport',
+  //   // route level code-splitting
+  //   // this generates a separate chunk (about.[hash].js) for this route
+  //   // which is lazy-loaded when the route is visited.
+  //   component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/reports/PracticeReportView.vue')
+  // },
+  // {
+  //   path: '/practiceEval',
+  //   name: 'practiceEval',
+  //   // route level code-splitting
+  //   // this generates a separate chunk (about.[hash].js) for this route
+  //   // which is lazy-loaded when the route is visited.
+  //   component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/evals/PracticeEvalView.vue')
+  // },
   {
     path: '/',
     redirect: '/student',
@@ -92,7 +92,17 @@ const routes = [
         name: '学工服务填报',
         component: () => import('@/wuqile/views/AddOccupation'),
         meta: { title: 'Report', icon: 'el-icon-edit'}
-      }
+      },
+      {
+        path: '/researchReport',
+        name: '科研成果填报',
+        component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/reports/ResearchReportView.vue')
+      },
+      {
+        path: '/practiceReport',
+        name: '社会实践填报',
+        component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/reports/PracticeReportView.vue')
+      },
     ]
   },
   {
@@ -122,7 +132,7 @@ const routes = [
       {
         path: '/eval/research',
         name: '科研情况评审',
-        component: () => import('@/yudingyi/views/evals/ResearchEvalView.vue')
+        component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/evals/ResearchEvalView.vue')
       },
       {
         path: '/eval/service',
@@ -139,7 +149,7 @@ const routes = [
       {
         path: '/eval/practice',
         name: '社会实践评审',
-        component: () => import('@/views/evals/PracticeEvalView'),
+        component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/evals/PracticeEvalView.vue'),
         meta: { title: 'Report', icon: 'el-icon-edit'}
       }
     ]
