@@ -68,6 +68,18 @@ const routes = [
         name: '在线填报',
         component: () => import('@/views/ReportView'),
         meta: { title: 'Report', icon: 'el-icon-edit'}
+      },
+      {
+        path: '/student/AddComp',
+        name: '竞赛获奖填报',
+        component: () => import('@/wuqile/views/AddComp'),
+        meta: { title: 'Report', icon: 'el-icon-edit'}
+      },
+      {
+        path: '/student/AddOccupation',
+        name: '学工服务填报',
+        component: () => import('@/wuqile/views/AddOccupation'),
+        meta: { title: 'Report', icon: 'el-icon-edit'}
       }
     ]
   },
