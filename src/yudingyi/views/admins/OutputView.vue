@@ -68,8 +68,8 @@
       </el-table-column>
     </el-table>
     <div style="margin:10px">
-      <el-button type="primary" @click="getTable('eval_result')">导出汇总表</el-button>
-      <el-button type="primary" @click="getTable('eval_record')">导出评审细节表</el-button>
+      <el-button type="primary" @click="getTable('eval_results')">导出汇总表</el-button>
+      <el-button type="primary" @click="getTable('eval_records')">导出评审细节表</el-button>
     </div>
   </div>
 </template>
@@ -105,18 +105,30 @@ export default {
       console.log('通过接口获取表格');
       exportTable(table_name)
           .then (response => {
-                const url = window.URL.createObjectURL(new Blob([response.data]));
-                const link = document.createElement('a');
-                link.href = url;
-                let file_name = table_name + '.xlsx';
-                link.setAttribute('download', file_name);
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+                // const url = window.URL.createObjectURL(new Blob([response.data]));
+                // const link = document.createElement('a');
+                // link.href = url;
+                const file_name = table_name + '.xlsx';
+                this.saveFile(response, file_name);
+                // link.setAttribute('download', file_name);
+                // document.body.appendChild(link);
+                // setTimeout(() => link.click(), 100);
+                // link.remove();
+                // document.body.removeChild(link);
                 alert("导出成功" + table_name);
               }
           )
           .catch(error => console.error('导出Excel失败:', error));
+    },
+    saveFile(response, filename) {
+      const data = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = window.URL.createObjectURL(data);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', filename);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     },
   }
 };

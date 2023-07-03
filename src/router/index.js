@@ -20,6 +20,38 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/auth/RegisterView.vue')
   },
   {
+    path: '/researchReport',
+    name: 'researchReport',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/reports/ResearchReportView.vue')
+  },
+  {
+    path: '/researchEval',
+    name: 'researchEval',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/evals/ResearchEvalView.vue')
+  },
+  {
+    path: '/practiceReport',
+    name: 'practiceReport',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/reports/PracticeReportView.vue')
+  },
+  {
+    path: '/practiceEval',
+    name: 'practiceEval',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/evals/PracticeEvalView.vue')
+  },
+  {
     path: '/',
     redirect: '/student',
     hidden: true
@@ -48,6 +80,18 @@ const routes = [
         name: '志愿填报',
         component: () => import('@/wangdy55/views/VolunteerReportView'),
         meta: { title: 'Volunteer Report', icon: 'el-icon-edit'}
+      },
+      {
+        path: '/student/AddComp',
+        name: '竞赛获奖填报',
+        component: () => import('@/wuqile/views/AddComp'),
+        meta: { title: 'Report', icon: 'el-icon-edit'}
+      },
+      {
+        path: '/student/AddOccupation',
+        name: '学工服务填报',
+        component: () => import('@/wuqile/views/AddOccupation'),
+        meta: { title: 'Report', icon: 'el-icon-edit'}
       }
     ]
   },
