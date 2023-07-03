@@ -47,7 +47,7 @@
           </el-form-item>
           <el-form-item label="证明材料">
             <el-upload
-              action="http://localhost:20235/api/upload"
+              action="http://43.142.90.238:20235/api/upload"
               list-type="picture-card"
               :before-upload="beforeUpload"
               :on-preview="handlePreview"
@@ -97,7 +97,7 @@
           </el-form-item>
           <el-form-item label="证明材料">
             <el-upload
-              action="http://localhost:20235/api/upload"
+              action="http://43.142.90.238:20235/api/upload"
               list-type="picture-card"
               :before-upload="beforeUpload"
               :on-preview="handlePreview"
@@ -122,6 +122,7 @@
   import { insertOccu } from '../api/Occupation';
   import { updateOccu } from '../api/Occupation';
   import { deleteOccu } from '../api/Occupation';
+  import axios from 'axios';
   export default {
     data() {
       return {
@@ -175,23 +176,29 @@
       })
     },
     methods: {
-      onPreview() {
-        console.log(this.form)
-      let filePath = this.form.fileUrl; // 从你的文件对象中获取文件路径
-      // 使用fetch获取文件
-      fetch(filePath)
-          .then(response => response.blob())
-          .then(blob => {
-              // 创建URL
-              let url = URL.createObjectURL(blob);
+      onPreview(){
+        /* axios.get(`http://43.142.90.238:20235/api/downloadFiles/${encodeURIComponent(this.form.fileUrl)}`) */
+        axios({
+          url: `http://43.142.90.238:20235/api/downloadFiles/${encodeURIComponent(this.form.fileUrl)}`,
+          method: 'GET',
+          responseType: 'blob', // important
+        })
+        .then(response => {
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', this.form.fileUrl); // 这里的 'file.txt' 是下载后的文件名，你可以根据实际情况修改
+          document.body.appendChild(link);
+          link.click();
+          // handle your response here
+        })
+        .catch(error => {
+          console.error('Download failed:', error);
+          this.$message.error('未上传证明文件')
+          // handle your error here
+        });
 
-              // 这里，我们假设你将在一个新窗口中预览图像
-              window.open(url, '_blank');
-          })
-          .catch(error => {
-              console.error('Error:', error);
-          });
-    },
+      },
       handleUploadSuccess(response) {
         // TODO: replace with your actual code
         this.form.fileUrl = response;

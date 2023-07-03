@@ -56,7 +56,7 @@
           </el-form-item>
           <el-form-item label="证明材料">
             <el-upload
-              action="http://localhost:20235/api/upload"
+              action="http://43.142.90.238:20235/api/upload"
               list-type="picture-card"
               :before-upload="beforeUpload"
               :on-preview="handlePreview"
@@ -113,7 +113,7 @@
           </el-form-item>
           <el-form-item label="证明材料">
             <el-upload
-              action="http://localhost:20235/api/upload"
+              action="http://43.142.90.238:20235/api/upload"
               list-type="picture-card"
               :before-upload="beforeUpload"
               :on-preview="handlePreview"
@@ -137,7 +137,8 @@
   import { getComp } from '../api/Comp';
   import { updateComp } from '../api/Comp';
   import { deleteComp } from '../api/Comp';
-  import { getFile } from '../api/download';
+ // import { getFile } from '../api/download';
+  import axios from 'axios';
    export default {
     data() {
       return {
@@ -179,6 +180,29 @@
     },
     methods: {
       onPreview(){
+        /* axios.get(`http://43.142.90.238:20235/api/downloadFiles/${encodeURIComponent(this.form.fileUrl)}`) */
+        axios({
+          url: `http://43.142.90.238:20235/api/downloadFiles/${encodeURIComponent(this.form.fileUrl)}`,
+          method: 'GET',
+          responseType: 'blob', // important
+        })
+        .then(response => {
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', this.form.fileUrl); // 这里的 'file.txt' 是下载后的文件名，你可以根据实际情况修改
+          document.body.appendChild(link);
+          link.click();
+          // handle your response here
+        })
+        .catch(error => {
+          console.error('Download failed:', error);
+          this.$message.error('未上传证明文件')
+          // handle your error here
+        });
+
+      },
+/*       onPreview(){
         getFile(this.form.fileUrl).then((response)=> {
             console.log(response)
             const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -188,9 +212,10 @@
             document.body.appendChild(link);
             link.click();
         })
-      },
+      }, */
       handleUploadSuccess(response) {
         // TODO: replace with your actual code
+        console.log(response)
         this.form.fileUrl = response;
         updateComp(this.form)
         console.log(this.form)

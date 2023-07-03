@@ -30,13 +30,14 @@ export default {
     }
   },
   created() {
-    // this.menu = [...this.$router.options.routes]
+    this.menu = [...this.$router.options.routes]
     this.getMenuByRoleId()
   },
   methods: {
     getMenuByRoleId() {
       getMenuByRoleIdApi().then(res => {
-        this.menu = [...res.data.data]
+        // this.menu = [...res.data.data]
+        console.log("Menu: ", res.data.data)
       })
     }
   }

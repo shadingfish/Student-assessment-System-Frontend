@@ -94,7 +94,8 @@
   </div>
 </template>
 <script>
-import { getSummaryRecordApi, getSummaryApi, putSummaryRecordApi } from '@/wangdy55/api'
+import { getSummaryRecordApi, putSummaryRecordApi } from '@/wangdy55/api'
+import { summaryApis } from '@/wangdy55/api';
 export default {
   data() {
     return {
@@ -142,7 +143,7 @@ export default {
       })
     },
     getSummary(stuId) {
-      getSummaryApi(stuId).then(res => {
+      summaryApis.getSummaryApi(stuId).then(res => {
         this.summary = res.data.data
         this.$message({ type: 'success', message: res.data.message })
       })
