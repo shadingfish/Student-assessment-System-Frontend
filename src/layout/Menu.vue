@@ -1,9 +1,9 @@
 <template>
   <div class="menu">
     <el-aside width="200px">
-      <el-menu router :default-active="menu[1].children[0].path">
+      <el-menu router>
         <template v-for="(item, index) in menu">
-          <el-submenu :index="item.path" :key="index" v-if="!item.hidden">
+          <el-submenu v-if="!item.hidden" :index="item.path" :key="index">
             <template slot="title">
               <i :class="item.icon"></i>
               <span>{{ item.name }}</span>
@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import { getMenuByRoleIdApi } from '@/wangdy55/api'
 export default {
   name: 'AppMenu',
   data() {
@@ -29,8 +30,15 @@ export default {
     }
   },
   created() {
-    this.menu = [...this.$router.options.routes]
-    console.log(this.menu)
+    // this.menu = [...this.$router.options.routes]
+    this.getMenuByRoleId()
+  },
+  methods: {
+    getMenuByRoleId() {
+      getMenuByRoleIdApi().then(res => {
+        this.menu = [...res.data.data]
+      })
+    }
   }
 }
 </script>

@@ -12,9 +12,11 @@
     "axios": "^1.4.0",
     "core-js": "^3.8.3",
     "element-ui": "^2.15.13",
+    "path-to-regexp": "^6.2.1",
     "v-fit-columns": "^0.2.0",
     "vue": "^2.6.14",
-    "vue-router": "^3.5.1"
+    "vue-router": "^3.5.1",
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
@@ -29,6 +31,7 @@
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
     "prettier": "^2.4.1",
+    "qs": "^6.11.2",
     "sass": "^1.32.7",
     "sass-loader": "^12.0.0",
     "vue-template-compiler": "^2.6.14"

@@ -4,9 +4,11 @@
       <el-container>
         <Menu />
         <el-main>
-          <BreadCrumb />
+          <el-card>
+            <BreadCrumb />
+          </el-card>
           <div class="main">
-            <router-view></router-view>
+            <router-view />
           </div>
         </el-main>
       </el-container>
@@ -18,12 +20,11 @@
 import Menu from '@/layout/Menu'
 import Header from '@/layout/Header'
 import Footer from '@/layout/Footer'
-import BreadCrumb from '@/layout/BreadCrumb'
+import BreadCrumb from '@/components/kits/BreadCrumb'
 
 export default {
   name: 'AppLayout',
   components: { Menu, Header, Footer, BreadCrumb },
-
 }
 </script>
 
