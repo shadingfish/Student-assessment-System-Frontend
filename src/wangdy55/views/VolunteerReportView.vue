@@ -1,9 +1,25 @@
 <template>
   <div>
+    <el-table :data="volunteerActivityList" width="100%">
+      <el-table-column prop="activityName" label="活动名称"></el-table-column>
+      <el-table-column prop="activityTime" label="活动时间"></el-table-column>
+      <el-table-column prop="depart" label="部门等级"></el-table-column>
+      <el-table-column prop="duration" label="志愿时长（小时）"></el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button size="small" type="primary" @click="download(scope.row)">查看材料</el-button>
+          <el-button size="small" type="danger" @click="deleteVolunteerActivity(scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
 
     <h1>志愿服务申报</h1>
-    <input type="file" @change="handleFileUpload">
-    <button @click="uploadData">上传</button>
+    <el-upload ref="upload" class="fileUpload" action="http://43.142.90.238:20235/api/upload" :on-success="handleSuccess"
+      :auto-upload="false">
+      <el-button type="primary">选择文件</el-button>
+      <el-button type="primary" @click="uploadFile" style="margin-bottom: 20px;">上传文件</el-button>
+    </el-upload>
+
     <el-form ref="form" :model="form" label-width="80px" align="left">
       <el-form-item label="活动名称">
         <el-input v-model="form.activityName"></el-input>
@@ -29,8 +45,7 @@
 </template>
 
 <script>
-import { Message } from 'element-ui';
-import { volunteerApis } from '../api'; 
+import { volunteerApis } from '../api';
 export default {
   data() {
     return {
@@ -39,7 +54,8 @@ export default {
         activityName: '',
         activityTime: '',
         depart: '',
-        duration: ''
+        duration: '',
+        fileUrl: ''
       },
       targetId: '',
       file: null,
@@ -47,19 +63,33 @@ export default {
       requests: [], // 学生订正志愿时长的请求
     };
   },
+  created() {
+    this.getVolunteerActivityList()
+  },
   methods: {
+    getVolunteerActivityList() {
+      volunteerApis.getVolunteerActivityList().then(res => {
+        this.volunteerActivityList = res.data.data
+      })
+    },
+    // 上传文件
+    uploadFile() {
+      // 手动触发上传文件
+      this.$refs.upload.submit();
+    },
+    handleSuccess(response) {
+      // 处理上传成功的回调函数
+      console.log('上传成功', response);
+      this.form.fileUrl = response
+    },
+    // 提交表单
     onSubmit() {
       volunteerApis.addVolunteerActivityApi(this.form).then(res => {
         if (res.data.code == 200) {
           this.reset()
-          Message({message: res.data.message, type: "success"})
-          this.targetId = res.data.data
+          this.$message({ message: res.data.message, type: "success" })
         }
       })
-      // volunteerApis.addVolunteerFileApi(this.targetId, this.file).then()
-    },
-    handleFileUpload(event) {
-      this.file = event.target.files[0];
     },
     reset() {
       this.form = {
@@ -68,36 +98,37 @@ export default {
         depart: '',
         duration: ''
       }
+      this.file = null
     },
-
-    async uploadData() {
-      const data = new FormData();
-      data.append('file', this.file);
-
-      const response = await fetch('/upload', {
-        method: 'POST',
-        body: data,
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        this.records = result.records;
-        this.requests = result.requests;
-      }
+    deleteVolunteerActivity(row) {
+      volunteerApis.deleteVolunteerActivity(row.id).then(res => {
+        if (res.data.code == 200) {
+          this.$message({ message: res.data.message, type: 'success' })
+          this.getVolunteerActivityList()
+        }
+      })
     },
-    async handleRequest(request) {
-      const response = await fetch(`/correct-hours/${request.id}`, {
-        method: 'POST',
-        body: JSON.stringify(request),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (response.ok) {
-        request.status = '已处理';
-      }
-    },
+    download(row) {
+      volunteerApis.download(row.fileUrl).then(res => {
+        if (res.data.code == 200) {
+          this.$message({ message: res.data.message, type: 'success' })
+          // 创建一个 <a> 标签
+          const link = document.createElement('a');
+          link.href = res.data.data;
+          link.target = '_blank';
+          link.download = row.fileUrl; // 指定下载时的文件名，可根据实际情况修改
+          // 触发点击事件，执行下载
+          link.click();
+        }
+      })
+    }
   },
 };
 </script>
+
+<style lang="scss">
+.fileUpload {
+  display: flex;
+  justify-content: left;
+}
+</style>

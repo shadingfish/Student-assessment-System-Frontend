@@ -77,7 +77,7 @@ const routes = [
       },
       {
         path: '/student/volunteer',
-        name: '志愿填报',
+        name: '志愿活动填报',
         component: () => import('@/wangdy55/views/VolunteerReportView'),
         meta: { title: 'Volunteer Report', icon: 'el-icon-edit'}
       },
@@ -126,7 +126,7 @@ const routes = [
       {
         path: '/eval/volunteer',
         name: '志愿服务评审',
-        component: () => import('@/views/evals/VolunteerEvalView'),
+        component: () => import('@/wangdy55/views/VolunteerEvalView'),
         meta: { title: 'Report', icon: 'el-icon-edit'}
       },
       {

@@ -6,7 +6,8 @@ module.exports = defineConfig({
     // 设置代理
     proxy: {
       '/api': {
-        target: 'http://43.142.90.238:20235',
+        // target: 'http://43.142.90.238:20235',
+        target: 'http://localhost:20235',
         changeOrigin: true, // 跨域
         pathRewrite: {
           '^/api': ''
