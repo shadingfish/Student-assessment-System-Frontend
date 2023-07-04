@@ -13,6 +13,15 @@ export function getOccu() {
         method: 'get',
     })
 }
+export function getOccuByCardId(card_id) {
+    return service({
+        url: '/occupation/get-list-by-cardId',
+        method: 'get',
+        params:{
+            card_id:card_id
+        }
+    })
+}
 export function updateOccu(Occu) {
     const data=Occu
     return service({
