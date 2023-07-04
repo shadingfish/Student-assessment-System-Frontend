@@ -99,6 +99,9 @@ export default {
     },
     async fetchStudentList() {
       const response = await getStuPage(this.currentPage, this.pageSize);
+      console.log(this.currentPage);
+      console.log(this.pageSize);
+      console.log(response)
       this.studentList = response.data.data.rows; // 将数据赋值给studentList
       this.totalStudents = response.data.data.total; // 设置总学生数
     },

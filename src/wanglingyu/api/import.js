@@ -20,7 +20,7 @@ export function importStu(file) {
       return service({
         url:'/student/page',
         method:'get',
-        data:data
+        params:data
       })
   }
 
@@ -44,7 +44,7 @@ export function importStu(file) {
       return service({
         url:'/faculty/page',
         method:'get',
-        data:data
+        params:data
       })
   }
 
@@ -69,6 +69,6 @@ export function importStu(file) {
       return service({
         url:'/gpa/page',
         method:'get',
-        data:data
+        params:data
       })
   }
