@@ -3,10 +3,14 @@
     <el-container>
       <el-header
         ><el-button type="primary" @click="dialogVisible = true"
-          >导入学生</el-button
+          >导入教职工名单</el-button
         >
 
-        <el-dialog title="导入学生" :visible.sync="dialogVisible" width="40%">
+        <el-dialog
+          title="导入教职工名单"
+          :visible.sync="dialogVisible"
+          width="40%"
+        >
           <el-upload
             ref="upload"
             class="upload-demo"
@@ -32,7 +36,7 @@
         </el-dialog></el-header
       >
       <el-main
-        ><el-table v-if="studentList.length > 0" :data="studentList" border
+        ><el-table v-if="facultyList.length > 0" :data="facultyList" border
           ><el-table-column
             type="index"
             :index="indexMethod"
@@ -40,23 +44,28 @@
             label="序号"
             width="50"
           ></el-table-column>
-          <el-table-column prop="card_id" label="学号"></el-table-column>
+          <el-table-column prop="cardId" label="学号"></el-table-column>
           <el-table-column prop="name" label="姓名"></el-table-column>
-          <el-table-column prop="school" label="学院"></el-table-column>
-          <el-table-column prop="grade" label="年级"></el-table-column>
-          <el-table-column prop="stu_class" label="班级"></el-table-column>
+          <el-table-column prop="depart" label="部门"></el-table-column>
+          <el-table-column prop="job" label="职位"></el-table-column>
+          <el-table-column prop="role" label="角色"></el-table-column>
+          <el-table-column prop="password" label="密码"></el-table-column>
+          <el-table-column prop="status" label="状态"></el-table-column>
+          <el-table-column prop="birthday" label="生日"></el-table-column>
+          <el-table-column prop="gender" label="性别"></el-table-column>
+          <el-table-column prop="phone" label="电话"></el-table-column>
           <el-table-column
-            prop="major"
-            label="专业"
+            prop="email"
+            label="邮箱"
           ></el-table-column> </el-table
       ></el-main>
       <el-footer
         ><el-pagination
-          v-if="studentList.length > 0"
+          v-if="facultyList.length > 0"
           background
           :current-page="currentPage"
           :page-size="pageSize"
-          :total="totalStudents"
+          :total="totalFaculties"
           :page-sizes="[10, 20, 30, 50]"
           @current-change="handlePageChange"
           @size-change="handleSizeChange"
@@ -67,33 +76,33 @@
     </el-container>
   </div>
 </template>
-
-<script>
-import { getPage } from "@/wanglingyu/api/import";
+  
+  <script>
+import { getFacultyPage } from "@/wanglingyu/api/import";
 
 export default {
   data() {
     return {
       dialogVisible: false,
-      uploadUrl: "http://localhost:20235/student/import",
+      uploadUrl: "http://localhost:20235/faculty/import",
       file: null,
       currentPage: 1,
       pageSize: 10,
-      studentList: [], // 学生列表数据
-      totalStudents: 0, // 总学生数
+      facultyList: [], // 学生列表数据
+      totalFaculties: 0, // 总学生数
     };
   },
   mounted() {
-    this.fetchStudentList();
+    this.fetchFacultyList();
   },
   methods: {
     indexMethod(index) {
       return index + 1 + (this.currentPage - 1) * this.pageSize; // 返回表格序号
     },
-    async fetchStudentList() {
-      const response = await getPage(this.currentPage, this.pageSize);
-      this.studentList = response.data.data.rows; // 将数据赋值给studentList
-      this.totalStudents = response.data.data.total; // 设置总学生数
+    async fetchFacultyList() {
+      const response = await getFacultyPage(this.currentPage, this.pageSize);
+      this.facultyList = response.data.data.rows; // 将数据赋值给facultyList
+      this.totalFaculties = response.data.data.total; // 设置总学生数
     },
     handleFileChange(file) {
       this.file = file;
@@ -109,12 +118,13 @@ export default {
     },
     handlePageChange(currentPage) {
       this.currentPage = currentPage;
-      this.fetchStudentList();
+      this.fetchFacultyList();
     },
     handleSizeChange(pageSize) {
       this.pageSize = pageSize;
-      this.fetchStudentList();
+      this.fetchFacultyList();
     },
   },
 };
 </script>
+  

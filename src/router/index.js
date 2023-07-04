@@ -71,6 +71,12 @@ const routes = [
         hidden: true
       },
       {
+        path: '/student/inform',
+        name: '个人信息确认',
+        component: () => import('@/wanglingyu/views/StuInformView'),
+        meta: { title: 'Report', icon: 'el-icon-edit'}
+      },
+      {
         path: '/student/summary',
         name: '学年总结填报',
         component: () => import('@/wangdy55/views/SummaryReportView'),
@@ -117,8 +123,8 @@ const routes = [
       {
         path: '/eval/gpa',
         name: '学生成绩审核',
-        component: () => import('@/views/evals/GpaEvalView'),
-        meta: { title: 'GPA Evaluation', icon: 'el-icon-edit'}
+        component: () => import('@/wanglingyu/views/GpaEvalView'),
+        meta: { title: 'Report', icon: 'el-icon-edit'}
       },
       {
         path: '/eval/summary',
@@ -162,13 +168,17 @@ const routes = [
     path: '/admin',
     name: '学工页面', icon: 'el-icon-s-check',
     component: () => import('@/layout'),
-    redirect: '/admin/import',
+    redirect: '/admin/importStudent',
     children: [
       {
-        path: '/admin/import',
+        path: '/admin/importStudent',
         name: '导入学生名单',
-        component: () => import('@/wanglingyu/views/ImportListView'),
-        meta: { title: 'List Import', icon: 'el-icon-edit'}
+        component: () => import('@/wanglingyu/views/ImportStudentView')
+      },
+      {
+        path: '/admin/importFaculty',
+        name: '导入教职工名单',
+        component: () => import('@/wanglingyu/views/ImportFacultyView')
       },
       {
         path: '/admin/collect',
