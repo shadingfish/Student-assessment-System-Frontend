@@ -47,3 +47,28 @@ export function importStu(file) {
         data:data
       })
   }
+
+
+  // 导入GPA
+  export function importGpa(file) {
+    const data = {
+      file
+    }
+    return service({
+      url: '/gpa/import',
+      method: 'post',
+      data: data
+    })
+  }
+
+  export function getGpaPage(page, pageSize){
+      const data = {
+        page,
+        pageSize
+      }
+      return service({
+        url:'/gpa/page',
+        method:'get',
+        data:data
+      })
+  }

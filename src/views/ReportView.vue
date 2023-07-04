@@ -16,17 +16,7 @@
       <el-button @click="$router.push({ path: '/practiceEval' })" >进入实践评委打分页面</el-button>
     </div>
 
-    <div class="report-container" style="width:70vw; background-color: rgba(178,180,178,0.16)">
-
-<h2>王灵语接口</h2>
-<br>
-<el-button @click="$router.push({ path: '/admin/importStudent' })" >导入学生名单</el-button>
-<el-button @click="$router.push({ path: '/admin/importFaculty' })" >导入教职工名单</el-button>
-<el-button @click="$router.push({ path: '/eval/gpa' })" >学生成绩审核（导入gpa）</el-button>
-<el-button @click="$router.push({ path: '/student/inform' })" >学生个人信息确认（gpa确认）</el-button>
-</div>
-
-  </div>
+    
 </template>
 
 <script>
