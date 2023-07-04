@@ -137,13 +137,13 @@ const routes = [
       {
         path: '/eval/service',
         name: '学生服务岗位评审',
-        component: () => import('@/views/evals/ServiceEvalView'),
+        component: () => import('@/wuqile/views/ServiceEvalView'),
         meta: { title: 'Report', icon: 'el-icon-edit'}
       },
       {
         path: '/eval/competition',
         name: '竞赛得奖评审',
-        component: () => import('@/views/evals/CompetitionEvalView'),
+        component: () => import('@/wuqile/views/CompetitionEvalView'),
         meta: { title: 'Report', icon: 'el-icon-edit'}
       },
       {
