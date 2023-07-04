@@ -16,7 +16,7 @@
       <el-button @click="$router.push({ path: '/practiceEval' })" >进入实践评委打分页面</el-button>
     </div>
 
-    
+  </div>
 </template>
 
 <script>
