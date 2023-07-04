@@ -1,6 +1,6 @@
 <template>
   <div class="menu">
-    <el-aside width="200px">
+    <el-aside width="220px">
       <el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
         <el-radio-button :label="false">展开</el-radio-button>
         <el-radio-button :label="true">收起</el-radio-button>
@@ -16,7 +16,7 @@
               v-for="(child, index) in item.children"
               :key="index"
             >
-              <el-menu-item :index="child.path" :key="index">
+              <el-menu-item v-if="!child.hidden" :index="child.path" :key="index">
                 <span>{{ child.name }}</span>
               </el-menu-item>
             </el-menu-item-group>
