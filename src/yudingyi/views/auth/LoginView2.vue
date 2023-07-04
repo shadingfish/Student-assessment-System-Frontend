@@ -3,11 +3,11 @@
         <div class="login-box">
             <div class="login-logo">
                 <a href="#">
-                    <img src="../../../assets/pkulogo.png" alt="logo">
+                    <img src="../../../assets/logo.png" alt="logo">
                 </a>
             </div>
             <div class="login-form">
-                <h1>学生综合测评系统</h1>
+                <h2>用户登录</h2>
                 <el-form ref="form" :model="loginForm" :rules="rules" label-position="left" label-width="0">
                     <el-form-item prop="cardId">
                         <el-input v-model="loginForm.cardId" placeholder="请输入学号"></el-input>
@@ -16,8 +16,8 @@
                         <el-input type="password" v-model="loginForm.password" placeholder="请输入密码"></el-input>
                     </el-form-item>
                   <el-form-item prop="captchaText">
-                    <el-input v-model="loginForm.captchaText" placeholder="请输入验证码"></el-input>
-                    <img class="captcha" :src="captchaImageUrl" alt="Captcha" @click="getCaptchaImage" style="cursor: pointer;" />
+                    <input v-model="loginForm.captchaText" placeholder="请输入验证码">
+                    <img :src="captchaImageUrl" alt="Captcha" @click="getCaptchaImage" style="cursor: pointer;" />
                   </el-form-item>
 <!--                    <el-form-item>-->
 <!--                      <input type="text" name="captchaText" placeholder="输入验证码">-->
@@ -111,52 +111,39 @@ export default {
 </script>
 
 <style lang="scss">
-html, body {
-  height: 100%;
-  background-color: rgb(255, 251, 246);
-
-}
 .login-container {
     margin-top: 10vh;
-  // height: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 
   .login-box {
-    width: 500px;
-    height: 580px;
+    width: 400px;
+    height: 400px;
     border-radius: 5px;
     box-shadow: 0px 0px 10px #ccc;
-    background-color: #ffffff;
 
     .login-logo {
-      height: 120px;
+      height: 100px;
       display: flex;
       justify-content: center;
       align-items: center;
 
-
       img {
-        margin-top: 40px;
-        height: 80px;
+        height: 80%;
       }
     }
 
     .login-form {
-      padding:0 50px;
+      padding: 20px;
 
-      h1{
-        margin: 30px 0;
-      }
-
-      img {
-        margin-top:20px;
+      h3 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        text-align: center;
       }
     }
-    
-
-    
   }
 }
 </style>
