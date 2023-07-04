@@ -163,7 +163,7 @@ const routes = [
       {
         path: '/admin/import',
         name: '导入学生名单',
-        component: () => import('@/views/admins/ImportListView')
+        component: () => import('@/wanglingyu/views/ImportListView')
       },
       {
         path: '/admin/collect',
