@@ -45,12 +45,12 @@
               width="50"
             ></el-table-column>
             <el-table-column prop="cardId" label="学号"></el-table-column>
-            <el-table-column prop="name" label="学年"></el-table-column>
-            <el-table-column prop="depart" label="GPA"></el-table-column>
-            <el-table-column prop="job" label="排名"></el-table-column>
-            <el-table-column prop="role" label="总人数"></el-table-column>
-            <el-table-column prop="password" label="确认状态"></el-table-column>
-            <el-table-column prop="status" label="确认时间"></el-table-column>
+            <el-table-column prop="acYear" label="学年"></el-table-column>
+            <el-table-column prop="gpa" label="GPA"></el-table-column>
+            <el-table-column prop="ranking" label="排名"></el-table-column>
+            <el-table-column prop="base" label="总人数"></el-table-column>
+            <el-table-column prop="confirmStatus" label="确认状态" ></el-table-column>
+            <el-table-column prop="confirmTime" label="确认时间"></el-table-column>
        </el-table
         ></el-main>
         <el-footer
