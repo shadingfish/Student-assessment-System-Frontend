@@ -1,6 +1,6 @@
 <!-- 个人学年总结评审页面 -->
 <template>
-  <div class="sum-eval">
+  <div class="volunteer-eval">
     <el-table :data="evalRecords" border style="width: 100%">
       <el-table-column prop="student.cardId" label="学号"></el-table-column>
       <el-table-column prop="student.name" label="姓名"></el-table-column>
@@ -10,18 +10,18 @@
       <el-table-column prop="evalStatus" label="审核状态"></el-table-column>
       <el-table-column prop="score" label="分数">
         <template slot-scope="scope">
-            {{ scope.row.evalStatus === '待审核' ? '未评分' : scope.row.score }}
+          {{ scope.row.evalStatus === '待审核' ? '未评分' : scope.row.score }}
         </template>
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" icon="el-icon-edit"
-            @click="edit(scope.row)">
+          <el-button type="primary" size="mini" icon="el-icon-edit" @click="edit(scope.row)">
             评分
           </el-button>
         </template>
       </el-table-column>
     </el-table>
+
     <el-dialog class="el-dialog-view" title="个人学年总结" :visible.sync="dialogVisible" width="800px">
       <div class="form">
         <h1>学生个人信息</h1>
@@ -58,21 +58,25 @@
             </el-col>
             <el-col :span="12" style="text-align: left;">
               <el-form-item label="评审状态" prop="evalStatus">
-                <el-tag :type="form.evalStatus == '已审核' ? 'success' : 'warning'" size="medium">{{ form.evalStatus }}</el-tag>
+                <el-tag :type="form.evalStatus == '已审核' ? 'success' : 'warning'" size="medium">{{ form.evalStatus
+                }}</el-tag>
               </el-form-item>
             </el-col>
           </el-row>
         </el-form>
 
-        <h1>个人学年总结</h1>
-        <template v-for="(item, key, index) in summary">
-          <div class="summary-item" :key="key">
-            <h3>{{ index + 1  + '. ' + summaryCol[index]}}</h3>
-            <el-input class="content"
-              type="textarea" :autosize="{ minRows: 10, maxRows: 20 }" :value="item">
-            </el-input>
-          </div>
-        </template>
+        <h1>志愿活动记录</h1>
+        <el-table :data="volunteerActivityList" width="100%">
+          <el-table-column prop="activityName" label="活动名称"></el-table-column>
+          <el-table-column prop="activityTime" label="活动时间"></el-table-column>
+          <el-table-column prop="depart" label="部门等级"></el-table-column>
+          <el-table-column prop="duration" label="志愿时长（小时）"></el-table-column>
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <el-button size="small" type="primary" @click="downloadVolunteerActivity(scope.row)">查看材料</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
 
         <h1>审核评分</h1>
         <el-form :model="form" :rules="rules" ref="form" labelWidth="80px">
@@ -94,13 +98,14 @@
   </div>
 </template>
 <script>
-import { getSummaryRecordApi, putSummaryRecordApi } from '@/wangdy55/api'
-import { summaryApis } from '@/wangdy55/api';
+import axios from 'axios';
+import { volunteerApis } from '@/wangdy55/api';
 export default {
   data() {
     return {
       dialogVisible: false,
       evalRecords: [],
+      volunteerActivityList: [],
       form: {
         id: 1,
         evalStatus: '已通过',
@@ -119,43 +124,40 @@ export default {
         grade: '',
         major: '',
         class: '',
-      },
-      summary: {},
-      summaryCol: [ '思想政治总结', '行为规范总结', '学习态度总结', '身心健康总结' ],
-      queryParams: {
-        'judgeId': 2,
-        'acYear': '2022-2023'
       }
     };
   },
   created() {
     // 获取评审记录列表
-    this.getSummaryRecord(this.queryParams)
+    this.getVolunteerRecordList()
   },
   methods: {
-    getSummaryRecord(params) {
-      getSummaryRecordApi(params).then(res => {
-        this.evalRecords = res.data.data
-        this.evalRecords.forEach(row => {
-          row.student.class = row.student.class1
-        })
-        this.$message({ type: 'success', message: res.data.message })
+    getVolunteerRecordList() {
+      volunteerApis.getVolunteerRecordList().then(res => {
+        if (res.data.code == 200) {
+          this.evalRecords = res.data.data
+          this.$message({ message: res.data.message, type: 'success' })
+        }
       })
     },
-    getSummary(stuId) {
-      summaryApis.getSummaryApi(stuId).then(res => {
-        this.summary = res.data.data
-        this.$message({ type: 'success', message: res.data.message })
+    getVolunteerActivityList(cardId) {
+      volunteerApis.getVolunteerActivities(cardId).then(res => {
+        if (res.data.code == 200) {
+          this.volunteerActivityList = res.data.data
+          this.$message({ message: res.data.message, type: 'success' })
+        }
       })
     },
-    putSummaryRecord(data) {
-      putSummaryRecordApi(data).then(res => {
-        this.$message({ type: 'success', message: res.data.message })
+    updateVolunteerRecord(data) {
+      volunteerApis.updateVolunteerRecord(data).then(res => {
+        if (res.data.code == 200) {
+          this.$message({ message: res.data.message, type: 'success' })
+        }
       })
     },
     edit(row) {
-      this.getSummary(row.stuId)
-      this.form = {...row}
+      this.getVolunteerActivityList(row.student.cardId)
+      this.form = { ...row }
       this.form.score = this.form.evalStatus == '待审核' ? '' : row.score
       this.student = row.student
       this.dialogVisible = true
@@ -163,11 +165,10 @@ export default {
     submit(form) {
       this.$refs[form].validate(valid => {
         if (valid) {
-          console.log(this.form)
           // 调用 PUT 接口
-          this.putSummaryRecord(this.form)
+          this.updateVolunteerRecord(this.form)
           this.closeForm(form)
-          this.getSummary()
+          volunteerApis.getVolunteerRecordList()
         }
       })
     },
@@ -185,12 +186,32 @@ export default {
         callback();
       }
     },
+    downloadVolunteerActivity(row) {
+      axios({
+        url: 'http://43.142.90.238:20235' + `/api/downloadFiles/${encodeURIComponent(row.fileUrl)}`,
+        method: 'GET',
+        responseType: 'blob', // important
+      }).then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', row.fileUrl); // 这里的 'this.form.fileUrl' 是数据库中存储的url,可根据实际情况修改
+        document.body.appendChild(link);
+        link.click();
+        // handle your response here
+      }).catch(error => {
+        console.error('Download failed:', error);
+        this.$message.error('未上传证明文件')
+        // handle your error here
+      });
+    },
   }
 };
 </script>
 <style lang="scss" scoped>
-.sum-eval {
+.volunteer-eval {
   padding: 10px;
+
   .form {
     height: 400px;
     text-align: left;
@@ -202,6 +223,7 @@ export default {
 
     .summary-item {
       margin: 40px 0;
+
       .content {
         font-size: 16px;
       }

@@ -7,7 +7,7 @@
       <el-table-column prop="duration" label="志愿时长（小时）"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="small" type="primary" @click="download(scope.row)">查看材料</el-button>
+          <el-button size="small" type="primary" @click="downloadVolunteerActivity(scope.row)">查看材料</el-button>
           <el-button size="small" type="danger" @click="deleteVolunteerActivity(scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -37,8 +37,11 @@
         <el-input v-model="form.duration"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">立即申报</el-button>
+        <el-button type="primary" @click="onSubmit">添加</el-button>
         <el-button @click="reset()">取消</el-button>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="submitRecord">提交</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -46,6 +49,7 @@
 
 <script>
 import { volunteerApis } from '../api';
+import axios from "axios";
 export default {
   data() {
     return {
@@ -100,14 +104,6 @@ export default {
       }
       this.file = null
     },
-    deleteVolunteerActivity(row) {
-      volunteerApis.deleteVolunteerActivity(row.id).then(res => {
-        if (res.data.code == 200) {
-          this.$message({ message: res.data.message, type: 'success' })
-          this.getVolunteerActivityList()
-        }
-      })
-    },
     download(row) {
       volunteerApis.download(row.fileUrl).then(res => {
         if (res.data.code == 200) {
@@ -119,6 +115,32 @@ export default {
           link.download = row.fileUrl; // 指定下载时的文件名，可根据实际情况修改
           // 触发点击事件，执行下载
           link.click();
+        }
+      })
+    },
+    downloadVolunteerActivity(row) {
+      axios({
+        url: 'http://43.142.90.238:20235' + `/api/downloadFiles/${encodeURIComponent(row.fileUrl)}`,
+        method: 'GET',
+        responseType: 'blob', // important
+      }).then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', row.fileUrl); // 这里的 'this.form.fileUrl' 是数据库中存储的url,可根据实际情况修改
+        document.body.appendChild(link);
+        link.click();
+        // handle your response here
+      }).catch(error => {
+        console.error('Download failed:', error);
+        this.$message.error('未上传证明文件')
+        // handle your error here
+      });
+    },
+    submitRecord() {
+      volunteerApis.submitVolunteerRecord().then(res => {
+        if (res.data.code == 200) {
+          this.$message({ message: res.data.message, type: 'success' })
         }
       })
     }

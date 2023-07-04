@@ -38,3 +38,33 @@ export function download(filename) {
     responseType: 'blob'
   })
 }
+
+export function submitVolunteerRecord() {
+  return service({
+    method: 'post',
+    url: `/volunteer/submit`,
+  })
+}
+
+// 评审接口
+export function getVolunteerRecordList() {
+  return service({
+    method: 'get',
+    url: '/eval/volunteer/list'
+  })
+}
+
+export function getVolunteerActivities(cardId) {
+  return service({
+    method: 'get',
+    url: `/eval/volunteer/${cardId}`
+  })
+}
+
+export function updateVolunteerRecord(data) {
+  return service({
+    method: 'put',
+    url: '/eval/volunteer',
+    data
+  })
+}
