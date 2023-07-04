@@ -3,36 +3,14 @@
     <el-container>
       <el-header
         ><el-button type="primary" @click="dialogVisible = true"
-          >导入学生</el-button
+          >导入学生名单</el-button
         >
-
-        <el-dialog title="导入学生" :visible.sync="dialogVisible" width="40%">
-          <el-upload
-            ref="upload"
-            class="upload-demo"
-            drag
-            :action="uploadUrl"
-            :limit="1"
-            accept=".xlsx, .xls"
-            :auto-upload="false"
-            :on-change="handleFileChange"
-          >
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">
-              将文件拖到此处，或<em>点击上传</em>
-            </div>
-            <div class="el-upload__tip text-center" slot="tip">
-              <span>仅允许导入xls、xlsx格式文件。</span>
-            </div>
-          </el-upload>
-          <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="uploadFile">上 传</el-button>
-          </div>
-        </el-dialog></el-header
-      >
-      <el-main
-        ><el-table v-if="studentList.length > 0" :data="studentList" border
+        <!-- <el-button type="primary" @click="dialogVisible = true"
+          >新增学生</el-button
+        > -->
+      </el-header>
+      <el-main>
+        <el-table v-if="studentList.length > 0" :data="studentList" border
           ><el-table-column
             type="index"
             :index="indexMethod"
@@ -40,14 +18,20 @@
             label="序号"
             width="50"
           ></el-table-column>
-          <el-table-column prop="card_id" label="学号"></el-table-column>
+          <el-table-column prop="cardId" label="学号"></el-table-column>
           <el-table-column prop="name" label="姓名"></el-table-column>
           <el-table-column prop="school" label="学院"></el-table-column>
           <el-table-column prop="grade" label="年级"></el-table-column>
-          <el-table-column prop="stu_class" label="班级"></el-table-column>
+          <el-table-column prop="clas" label="班级"></el-table-column>
+          <el-table-column prop="major" label="专业"></el-table-column>
+          <el-table-column prop="password" label="密码"></el-table-column>
+          <el-table-column prop="status" label="状态"></el-table-column>
+          <el-table-column prop="birthday" label="生日"></el-table-column>
+          <el-table-column prop="gender" label="性别"></el-table-column>
+          <el-table-column prop="phone" label="电话"></el-table-column>
           <el-table-column
-            prop="major"
-            label="专业"
+            prop="email"
+            label="邮箱"
           ></el-table-column> </el-table
       ></el-main>
       <el-footer
@@ -64,12 +48,35 @@
         >
         </el-pagination
       ></el-footer>
+
+      <el-dialog title="导入学生" :visible.sync="dialogVisible" width="40%">
+        <el-upload
+          ref="upload"
+          class="upload-demo"
+          drag
+          :action="uploadUrl"
+          :limit="1"
+          accept=".xlsx, .xls"
+          :auto-upload="false"
+          :on-change="handleFileChange"
+        >
+          <i class="el-icon-upload"></i>
+          <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+          <div class="el-upload__tip text-center" slot="tip">
+            <span>仅允许导入xls、xlsx格式文件。</span>
+          </div>
+        </el-upload>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="uploadFile">上 传</el-button>
+        </div>
+      </el-dialog>
     </el-container>
   </div>
 </template>
-
-<script>
-import { getPage } from "@/wanglingyu/api/import";
+  
+  <script>
+import { getStuPage } from "@/wanglingyu/api/import";
 
 export default {
   data() {
@@ -91,7 +98,7 @@ export default {
       return index + 1 + (this.currentPage - 1) * this.pageSize; // 返回表格序号
     },
     async fetchStudentList() {
-      const response = await getPage(this.currentPage, this.pageSize);
+      const response = await getStuPage(this.currentPage, this.pageSize);
       this.studentList = response.data.data.rows; // 将数据赋值给studentList
       this.totalStudents = response.data.data.total; // 设置总学生数
     },
@@ -118,3 +125,9 @@ export default {
   },
 };
 </script>
+  
+<!-- <style>
+.el-header {
+  text-align: left;
+}
+</style> -->
