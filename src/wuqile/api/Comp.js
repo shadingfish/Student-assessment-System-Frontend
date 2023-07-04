@@ -15,6 +15,16 @@ export function getComp() {
     })
 }
 
+export function getCompByCardId(card_id) {
+    return service({
+        url: '/competition/get-list-by-cardId',
+        method: 'get',
+        params:{
+            card_id:card_id
+        }
+    })
+}
+
 export function updateComp(Comp) {
     const data=Comp
     return service({
