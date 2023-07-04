@@ -66,8 +66,9 @@ const routes = [
       {
         path: '/student/report',
         name: '在线填报',
-        component: () => import('@/views/ReportView'),
-        meta: { title: 'Report', icon: 'el-icon-edit'}
+        component: () => import('@/wangdy55/views/WelcomeView'),
+        meta: { title: 'Report', icon: 'el-icon-edit'},
+        hidden: true
       },
       {
         path: '/student/inform',
@@ -83,7 +84,7 @@ const routes = [
       },
       {
         path: '/student/volunteer',
-        name: '志愿填报',
+        name: '志愿活动填报',
         component: () => import('@/wangdy55/views/VolunteerReportView'),
         meta: { title: 'Volunteer Report', icon: 'el-icon-edit'}
       },
@@ -91,23 +92,25 @@ const routes = [
         path: '/student/AddComp',
         name: '竞赛获奖填报',
         component: () => import('@/wuqile/views/AddComp'),
-        meta: { title: 'Report', icon: 'el-icon-edit'}
+        meta: { title: 'Competition Report', icon: 'el-icon-edit'}
       },
       {
         path: '/student/AddOccupation',
         name: '学工服务填报',
         component: () => import('@/wuqile/views/AddOccupation'),
-        meta: { title: 'Report', icon: 'el-icon-edit'}
+        meta: { title: 'Occupation Report', icon: 'el-icon-edit'}
       },
       {
         path: '/researchReport',
         name: '科研成果填报',
-        component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/reports/ResearchReportView.vue')
+        component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/reports/ResearchReportView.vue'),
+        meta: { title: 'Research Report', icon: 'el-icon-edit'}
       },
       {
         path: '/practiceReport',
         name: '社会实践填报',
-        component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/reports/PracticeReportView.vue')
+        component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/reports/PracticeReportView.vue'),
+        meta: { title: 'Practice Report', icon: 'el-icon-edit'}
       },
     ]
   },
@@ -127,36 +130,37 @@ const routes = [
         path: '/eval/summary',
         name: '个人学年总结评审',
         component: () => import('@/wangdy55/views/SummaryEvalView'),
-        meta: { title: 'Report', icon: 'el-icon-edit'}
+        meta: { title: 'Summary Evaluation', icon: 'el-icon-edit'}
       },
       {
         path: '/eval/volunteer',
         name: '志愿服务评审',
-        component: () => import('@/views/evals/VolunteerEvalView'),
-        meta: { title: 'Report', icon: 'el-icon-edit'}
+        component: () => import('@/wangdy55/views/VolunteerEvalView'),
+        meta: { title: 'Summary Evaluation', icon: 'el-icon-edit'}
       },
       {
         path: '/eval/research',
         name: '科研情况评审',
-        component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/evals/ResearchEvalView.vue')
+        component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/evals/ResearchEvalView.vue'),
+        meta: { title: 'Research Evaluation', icon: 'el-icon-edit'}
       },
       {
         path: '/eval/service',
         name: '学生服务岗位评审',
-        component: () => import('@/views/evals/ServiceEvalView'),
-        meta: { title: 'Report', icon: 'el-icon-edit'}
+        component: () => import('@/wuqile/views/ServiceEvalView'),
+        meta: { title: 'Occupation Evaluation', icon: 'el-icon-edit'}
       },
       {
         path: '/eval/competition',
         name: '竞赛得奖评审',
-        component: () => import('@/views/evals/CompetitionEvalView'),
-        meta: { title: 'Report', icon: 'el-icon-edit'}
+        component: () => import('@/wuqile/views/CompetitionEvalView'),
+        meta: { title: 'Competition Evaluation', icon: 'el-icon-edit'}
       },
       {
         path: '/eval/practice',
         name: '社会实践评审',
         component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/evals/PracticeEvalView.vue'),
-        meta: { title: 'Report', icon: 'el-icon-edit'}
+        meta: { title: 'Practice Evaluation', icon: 'el-icon-edit'}
       }
     ]
   },
@@ -179,12 +183,14 @@ const routes = [
       {
         path: '/admin/collect',
         name: '成绩汇总',
-        component: () => import('@/wangdy55/views/CollectResultView')
+        component: () => import('@/wangdy55/views/CollectResultView'),
+        meta: { title: 'Evaluation Collection', icon: 'el-icon-edit'}
       },
       {
         path: '/admin/output',
         name: '成绩导出',
-        component: () => import('@/yudingyi/views/admins/OutputView.vue')
+        component: () => import('@/yudingyi/views/admins/OutputView.vue'),
+        meta: { title: 'Result Output', icon: 'el-icon-edit'}
       }
     ]
   },
