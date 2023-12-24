@@ -1,4 +1,5 @@
 # stu-eval-frontend
+This repository is moved from https://gitee.com/yudingyi054/stu-eval-frontend/tree/yudingyi/
 
 ## Project setup
 ```
