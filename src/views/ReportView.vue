@@ -1,114 +1,93 @@
 <!-- 学生在线填报页面 -->
 <template>
   <div class="report-container">
-    <h2>成绩表</h2>
-    <el-table>
-      <el-table-column prop="term" label="学年" ></el-table-column>
-      <el-table-column prop="gpa" label="GPA" ></el-table-column>
-      <el-table-column prop="rank" label="排名" ></el-table-column>
-    </el-table>
+    <div class="report-container" style="width:70vw; background-color: rgba(178,180,178,0.16)">
 
-    <h2>志愿服务</h2>
-    <el-table>
-      <el-table-column prop="date" label="日期" ></el-table-column>
-      <el-table-column prop="activity" label="活动名称" ></el-table-column>
-      <el-table-column prop="duration" label="时长" ></el-table-column>
-      <el-table-column prop="url" label="证明材料" ></el-table-column>
-    </el-table>
+      <h2>于丁一接口</h2>
+      <br>
+      <span style="color: crimson">注：</span>
+      <span>不同的功能接口，麻烦自行与home菜单拼合，并为每个接口（除退出登录外）增加返回按键</span>
+      <br>
+      <el-button @click="logout" >退出登录</el-button>
+      <el-button @click="$router.push({ path: '/admin/output' })" >导出界面</el-button>
+      <el-button @click="$router.push({ path: '/researchReport' })" >进入填报科研情况页面</el-button>
+      <el-button @click="$router.push({ path: '/researchEval' })" >进入科研评委打分页面</el-button>
+      <el-button @click="$router.push({ path: '/practiceReport' })" >进入填报实践情况页面</el-button>
+      <el-button @click="$router.push({ path: '/practiceEval' })" >进入实践评委打分页面</el-button>
+    </div>
 
-    <h2>学生骨干服务岗位任职</h2>
-    <el-table>
-      <el-table-column prop="term" label="学年" ></el-table-column>
-      <el-table-column prop="department" label="部门" ></el-table-column>
-      <el-table-column prop="level" label="校级/院级" ></el-table-column>
-      <el-table-column prop="occupation" label="职位" ></el-table-column>
-      <el-table-column prop="url" label="证明材料" ></el-table-column>
-    </el-table>
-
-    <h2>科研成果</h2>
-    <el-table>
-      <el-table-column prop="type" label="成果类型" ></el-table-column>
-      <el-table-column prop="time" label="产出时间" ></el-table-column>
-      <el-table-column prop="level" label="成果等级" ></el-table-column>
-      <el-table-column prop="url" label="证明材料" ></el-table-column>
-    </el-table>
-
-    <h2>竞赛获奖情况</h2>
-    <el-table>
-      <el-table-column prop="competition" label="竞赛名称" ></el-table-column>
-      <el-table-column prop="time" label="时间" ></el-table-column>
-      <el-table-column prop="level" label="竞赛级别" ></el-table-column>
-      <el-table-column prop="award" label="获奖情况" ></el-table-column>
-      <el-table-column prop="url" label="证明材料" ></el-table-column>
-    </el-table>
-
-    <h2>社会实践情况</h2>
-    <el-table>
-      <el-table-column prop="practice" label="实践名称" ></el-table-column>
-      <el-table-column prop="start" label="起始时间" ></el-table-column>
-      <el-table-column prop="end" label="结束时间" ></el-table-column>
-      <el-table-column prop="content" label="实践内容" ></el-table-column>
-      <el-table-column prop="url" label="证明材料" ></el-table-column>
-    </el-table>
-
-    <h2>个人学年总结</h2>
-    <el-table :data="studentData" border style="width: 100%">
-      <el-table-column prop="id" label="学号">
-        <template slot-scope="scope">
-          {{ scope.row.id }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="name" label="姓名" width="90">
-        <template slot-scope="scope">
-          {{ scope.row.name }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="grade" label="年级">
-        <template slot-scope="scope">
-          {{ scope.row.grade }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="major" label="专业">
-        <template slot-scope="scope">
-          {{ scope.row.major }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="url" label="个人学年总结">
-        <template slot-scope="scope">
-          {{ scope.row.url }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="score" label="评分">
-        <template slot-scope="scope">
-          <el-input v-model="scope.row.score" size="small" />
-        </template>
-      </el-table-column>
-    </el-table>
   </div>
 </template>
 
 <script>
+
 export default {
   data() {
     return {
-      studentData: []
+      studentData: [],
     }
-  }
+  },
+  methods: {
+    logout(){
+      localStorage.clear();
+      location.reload();
+    }
+  },
 }
 </script>
 
 <style lang="scss">
 .report-container {
+  margin: 1em;
+  padding: 1em;
   display: flex;
-  flex-direction: column;
   align-items: start;
+  flex-direction: column;
+}
+
+el-form-item {
+  align-items: flex-start;
+}
+
+.input-suffix {
+  margin: auto;
+  border: 0.5em;
+  display: flex;
+  align-items: start;
+  span {
+    text-align:left;
+    min-width: 8em;
+    max-width: 8em;
+  }
 }
 
 h2 {
   margin: 64px 0 0;
+  font-weight: bold;
 }
 
 h2:nth-child(1) {
   margin: 0;
 }
+
+.tableBar {
+  display: flex;
+  margin-bottom: 20px;
+  justify-content: space-between;
+}
+
+.tableLab .span-btn {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  padding: 0 20px;
+  color: #818693;
+  border-right: solid 1px #d8dde3;
+}
+
+.tableLab .el-button{
+  margin-left: 10px;
+}
+
+
 </style>

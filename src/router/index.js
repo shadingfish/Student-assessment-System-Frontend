@@ -5,10 +5,58 @@ Vue.use(Router);
 
 const routes = [
   {
+    path: '/login',
+    name: 'login',
+    hidden: true,
+    component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/auth/LoginView.vue')
+  },
+  {
+    path: '/register',
+    name: 'register',
+    hidden: true,
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/auth/RegisterView.vue')
+  },
+  // {
+  //   path: '/researchReport',
+  //   name: 'researchReport',
+  //   // route level code-splitting
+  //   // this generates a separate chunk (about.[hash].js) for this route
+  //   // which is lazy-loaded when the route is visited.
+  //   component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/reports/ResearchReportView.vue')
+  // },
+  // {
+  //   path: '/researchEval',
+  //   name: 'researchEval',
+  //   // route level code-splitting
+  //   // this generates a separate chunk (about.[hash].js) for this route
+  //   // which is lazy-loaded when the route is visited.
+  //   component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/evals/ResearchEvalView.vue')
+  // },
+  // {
+  //   path: '/practiceReport',
+  //   name: 'practiceReport',
+  //   // route level code-splitting
+  //   // this generates a separate chunk (about.[hash].js) for this route
+  //   // which is lazy-loaded when the route is visited.
+  //   component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/reports/PracticeReportView.vue')
+  // },
+  // {
+  //   path: '/practiceEval',
+  //   name: 'practiceEval',
+  //   // route level code-splitting
+  //   // this generates a separate chunk (about.[hash].js) for this route
+  //   // which is lazy-loaded when the route is visited.
+  //   component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/evals/PracticeEvalView.vue')
+  // },
+  {
     path: '/',
     redirect: '/student',
     hidden: true
   },
+  // 登录页面
   {
     path: '/student',
     name: '学生页面', icon: 'el-icon-edit',
@@ -18,50 +66,101 @@ const routes = [
       {
         path: '/student/report',
         name: '在线填报',
-        component: () => import('@/views/ReportView')
-      }
+        component: () => import('@/wangdy55/views/WelcomeView'),
+        meta: { title: 'Report', icon: 'el-icon-edit'},
+        hidden: true
+      },
+      {
+        path: '/student/inform',
+        name: '个人信息确认',
+        component: () => import('@/wanglingyu/views/StuInformView'),
+        meta: { title: 'Report', icon: 'el-icon-edit'}
+      },
+      {
+        path: '/student/summary',
+        name: '学年总结填报',
+        component: () => import('@/wangdy55/views/SummaryReportView'),
+        meta: { title: 'Summary Report', icon: 'el-icon-edit'}
+      },
+      {
+        path: '/student/volunteer',
+        name: '志愿活动填报',
+        component: () => import('@/wangdy55/views/VolunteerReportView'),
+        meta: { title: 'Volunteer Report', icon: 'el-icon-edit'}
+      },
+      {
+        path: '/student/AddComp',
+        name: '竞赛获奖填报',
+        component: () => import('@/wuqile/views/AddComp'),
+        meta: { title: 'Competition Report', icon: 'el-icon-edit'}
+      },
+      {
+        path: '/student/AddOccupation',
+        name: '学工服务填报',
+        component: () => import('@/wuqile/views/AddOccupation'),
+        meta: { title: 'Occupation Report', icon: 'el-icon-edit'}
+      },
+      {
+        path: '/researchReport',
+        name: '科研成果填报',
+        component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/reports/ResearchReportView.vue'),
+        meta: { title: 'Research Report', icon: 'el-icon-edit'}
+      },
+      {
+        path: '/practiceReport',
+        name: '社会实践填报',
+        component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/reports/PracticeReportView.vue'),
+        meta: { title: 'Practice Report', icon: 'el-icon-edit'}
+      },
     ]
   },
   {
-    path: '/judge',
+    path: '/eval',
     name: '评委页面', icon: 'el-icon-paperclip',
     component: () => import('@/layout'),
-    redirect: '/judge/gpa-eval',
+    redirect: '/eval/gpa',
     children: [
       {
-        path: '/judge/gpa-eval',
+        path: '/eval/gpa',
         name: '学生成绩审核',
-        component: () => import('@/views/evals/GpaEvalView')
+        component: () => import('@/wanglingyu/views/GpaEvalView'),
+        meta: { title: 'Report', icon: 'el-icon-edit'}
       },
       {
-        path: '/judge/summary-eval',
+        path: '/eval/summary',
         name: '个人学年总结评审',
-        component: () => import('@/views/evals/SummaryEvalView')
+        component: () => import('@/wangdy55/views/SummaryEvalView'),
+        meta: { title: 'Summary Evaluation', icon: 'el-icon-edit'}
       },
       {
-        path: '/judge/volunteer-eval',
+        path: '/eval/volunteer',
         name: '志愿服务评审',
-        component: () => import('@/views/evals/VolunteerEvalView')
+        component: () => import('@/wangdy55/views/VolunteerEvalView'),
+        meta: { title: 'Summary Evaluation', icon: 'el-icon-edit'}
       },
       {
-        path: '/judge/research-eval',
+        path: '/eval/research',
         name: '科研情况评审',
-        component: () => import('@/views/evals/ResearchEvalView')
+        component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/evals/ResearchEvalView.vue'),
+        meta: { title: 'Research Evaluation', icon: 'el-icon-edit'}
       },
       {
-        path: '/judge/service-eval',
+        path: '/eval/service',
         name: '学生服务岗位评审',
-        component: () => import('@/views/evals/ServiceEvalView')
+        component: () => import('@/wuqile/views/ServiceEvalView'),
+        meta: { title: 'Occupation Evaluation', icon: 'el-icon-edit'}
       },
       {
-        path: '/judge/competition-eval',
+        path: '/eval/competition',
         name: '竞赛得奖评审',
-        component: () => import('@/views/evals/CompetitionEvalView')
+        component: () => import('@/wuqile/views/CompetitionEvalView'),
+        meta: { title: 'Competition Evaluation', icon: 'el-icon-edit'}
       },
       {
-        path: '/judge/practice-eval',
+        path: '/eval/practice',
         name: '社会实践评审',
-        component: () => import('@/views/evals/PracticeEvalView')
+        component: () => import(/* webpackChunkName: "about" */ '@/yudingyi/views/evals/PracticeEvalView.vue'),
+        meta: { title: 'Practice Evaluation', icon: 'el-icon-edit'}
       }
     ]
   },
@@ -69,22 +168,29 @@ const routes = [
     path: '/admin',
     name: '学工页面', icon: 'el-icon-s-check',
     component: () => import('@/layout'),
-    redirect: '/admin/import',
+    redirect: '/admin/importStudent',
     children: [
       {
-        path: '/admin/import',
+        path: '/admin/importStudent',
         name: '导入学生名单',
-        component: () => import('@/views/admins/ImportListView')
+        component: () => import('@/wanglingyu/views/ImportStudentView')
+      },
+      {
+        path: '/admin/importFaculty',
+        name: '导入教职工名单',
+        component: () => import('@/wanglingyu/views/ImportFacultyView')
       },
       {
         path: '/admin/collect',
         name: '成绩汇总',
-        component: () => import('@/views/admins/CollectResultView')
+        component: () => import('@/wangdy55/views/CollectResultView'),
+        meta: { title: 'Evaluation Collection', icon: 'el-icon-edit'}
       },
       {
         path: '/admin/output',
         name: '成绩导出',
-        component: () => import('@/views/admins/OutputView')
+        component: () => import('@/yudingyi/views/admins/OutputView.vue'),
+        meta: { title: 'Result Output', icon: 'el-icon-edit'}
       }
     ]
   },
